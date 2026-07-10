@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>IT Helpdesk Operations — สรุปผลปฏิบัติงาน 2026</title>
+<title>IT Helpdesk Operations — สรุปผลปฏิบัติงาน 2026 (Management View)</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Sans+Thai:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap');
@@ -17,14 +17,17 @@
   --text-hi:#EDF1FA;
   --text-mid:#9AA8C7;
   --text-low:#5C6889;
-  --amber:#F0A845;
-  --amber-dim:#F0A84522;
-  --teal:#2DD4BF;
-  --teal-dim:#2DD4BF1A;
-  --coral:#F2545B;
-  --coral-dim:#F2545B1A;
-  --violet:#8B8FF7;
-  --violet-dim:#8B8FF71A;
+  
+  /* --- [Strategic Color Palette] --- */
+  --amber: #FFB347;       
+  --amber-dim: rgba(255, 179, 71, 0.1);
+  --teal: #2DD4BF;        
+  --teal-dim: #2DD4BF1A;
+  --coral: #EF4444;       
+  --coral-dim: rgba(239, 68, 68, 0.1);
+  --violet: #A78BFA;      
+  --violet-dim: #A78BFA1A;
+  
   --display: 'Space Grotesk', sans-serif;
   --thai: 'IBM Plex Sans Thai', sans-serif;
   --mono: 'IBM Plex Mono', monospace;
@@ -37,7 +40,7 @@ html,body{
   color:var(--text-hi);
   font-family:var(--thai);
   font-size:15px;
-  line-height:1.5;
+  line-height:1.6;
   -webkit-font-smoothing:antialiased;
 }
 
@@ -51,90 +54,92 @@ body{
 
 ::selection{ background:var(--amber); color:#0B1220; }
 
-a{ color:inherit; }
+a{ color:inherit; text-decoration: none; }
 
 /* ---------- scaffolding ---------- */
-.wrap{ max-width:1320px; margin:0 auto; padding:0 28px; }
+.wrap{ max-width:1380px; margin:0 auto; padding:0 30px; }
 
 /* ---------- header ---------- */
 .topbar{
   border-bottom:1px solid var(--line-soft);
-  padding:22px 0;
+  padding:20px 0;
   position:sticky; top:0; z-index:50;
-  background:rgba(11,18,32,0.88);
-  backdrop-filter:blur(10px);
+  background:rgba(11,18,32,0.92);
+  backdrop-filter:blur(12px);
 }
 .topbar .wrap{ display:flex; align-items:center; justify-content:space-between; gap:24px; }
-.brand{ display:flex; align-items:center; gap:14px; min-width:0; }
+.brand{ display:flex; align-items:center; gap:16px; min-width:0; }
 .brand-mark{
-  width:38px; height:38px; border-radius:9px;
+  width:42px; height:42px; border-radius:10px;
   background:linear-gradient(135deg, var(--amber), #C97A1F);
   display:flex; align-items:center; justify-content:center;
-  font-family:var(--display); font-weight:700; font-size:15px; color:#0B1220;
+  font-family:var(--display); font-weight:700; font-size:16px; color:#0B1220;
   flex-shrink:0;
+  box-shadow: 0 0 15px rgba(255, 179, 71, 0.3);
 }
 .brand-text{ min-width:0; }
-.brand-text .title{ font-family:var(--display); font-weight:600; font-size:16px; letter-spacing:0.2px; color:var(--text-hi); white-space:nowrap; }
-.brand-text .sub{ font-family:var(--mono); font-size:11px; color:var(--text-low); letter-spacing:0.5px; margin-top:1px; white-space:nowrap; }
+.brand-text .title{ font-family:var(--display); font-weight:700; font-size:18px; letter-spacing:0.3px; color:var(--text-hi); white-space:nowrap; }
+.brand-text .sub{ font-family:var(--mono); font-size:11px; color:var(--text-mid); letter-spacing:0.8px; margin-top:2px; white-space:nowrap; opacity: 0.8; }
 
-.topbar-actions{ display:flex; align-items:center; gap:10px; }
+.topbar-actions{ display:flex; align-items:center; gap:12px; }
 .status-pill{
-  display:flex; align-items:center; gap:7px;
-  font-family:var(--mono); font-size:11.5px; color:var(--text-mid);
-  padding:7px 13px; border:1px solid var(--line); border-radius:100px;
+  display:flex; align-items:center; gap:8px;
+  font-family:var(--mono); font-size:12px; color:var(--text-mid);
+  padding:8px 15px; border:1px solid var(--line); border-radius:100px;
   background:var(--bg-panel);
 }
-.status-dot{ width:7px; height:7px; border-radius:50%; background:var(--teal); box-shadow:0 0 8px var(--teal); }
+.status-dot{ width:8px; height:8px; border-radius:50%; background:var(--teal); box-shadow:0 0 8px var(--teal); }
 
 .btn{
-  font-family:var(--thai); font-size:13.5px; font-weight:500;
-  padding:9px 16px; border-radius:8px; border:1px solid var(--line);
+  font-family:var(--thai); font-size:14px; font-weight:600;
+  padding:10px 20px; border-radius:8px; border:1px solid var(--line);
   background:var(--bg-panel-raised); color:var(--text-hi);
-  cursor:pointer; transition:all .15s ease; display:inline-flex; align-items:center; gap:7px;
+  cursor:pointer; transition:all .2s ease; display:inline-flex; align-items:center; gap:8px;
   white-space:nowrap;
 }
-.btn:hover{ border-color:var(--amber); background:#1C2640; }
-.btn-primary{ background:var(--amber); color:#0B1220; border-color:var(--amber); font-weight:600; }
-.btn-primary:hover{ background:#FFBB5C; border-color:#FFBB5C; }
+.btn:hover{ border-color:var(--amber); background:#1C2640; transform: translateY(-1px); }
+.btn-primary{ background:linear-gradient(180deg, var(--amber), #C97A1F); color:#0B1220; border-color:#C97A1F; }
+.btn-primary:hover{ background:linear-gradient(180deg, #FFBB5C, var(--amber)); border-color:var(--amber); }
 #fileInput{ display:none; }
 
 /* ---------- hero / signature strip ---------- */
-.hero{ padding:40px 0 8px; }
-.hero-head{ display:flex; justify-content:space-between; align-items:flex-end; gap:24px; flex-wrap:wrap; margin-bottom:28px; }
-.hero-eyebrow{ font-family:var(--mono); font-size:11.5px; color:var(--amber); letter-spacing:1.5px; text-transform:uppercase; margin-bottom:10px; }
-.hero h1{ font-family:var(--display); font-size:32px; font-weight:600; color:var(--text-hi); letter-spacing:-0.3px; max-width:680px; }
-.hero p.lede{ font-size:14.5px; color:var(--text-mid); margin-top:10px; max-width:560px; }
+.hero{ padding:50px 0 10px; }
+.hero-head{ display:flex; justify-content:space-between; align-items:flex-end; gap:24px; flex-wrap:wrap; margin-bottom:35px; }
+.hero-eyebrow{ font-family:var(--mono); font-size:12px; color:var(--amber); letter-spacing:2px; text-transform:uppercase; margin-bottom:12px; font-weight: 600; }
+.hero h1{ font-family:var(--display); font-size:36px; font-weight:700; color:var(--text-hi); letter-spacing:-0.5px; max-width:720px; line-height: 1.2; }
+.hero p.lede{ font-size:16px; color:var(--text-mid); margin-top:12px; max-width:600px; }
 .period-box{ text-align:right; font-family:var(--mono); font-size:12px; color:var(--text-low); }
-.period-box .range{ color:var(--text-mid); font-size:13px; margin-top:3px; }
+.period-box .range{ color:var(--text-mid); font-size:14px; margin-top:4px; font-weight: 500; }
 
 /* control panel - date range selector */
 .control-panel {
   border: 1px solid var(--line);
-  border-radius: 14px;
+  border-radius: 16px;
   background: var(--bg-panel);
-  padding: 18px 22px;
-  margin-bottom: 28px;
+  padding: 20px 25px;
+  margin-bottom: 32px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.2);
 }
 .control-panel-head {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 14px;
+  margin-bottom: 16px;
   flex-wrap: wrap;
-  gap: 10px;
+  gap: 12px;
 }
 .control-panel-title {
-  font-family: var(--display);
-  font-size: 14px;
+  font-family: var(--thai);
+  font-size: 15px;
   font-weight: 600;
   color: var(--text-hi);
   display: flex;
   align-items: center;
-  gap: 9px;
+  gap: 10px;
 }
 .control-panel-title .tag {
-  width: 6px;
-  height: 14px;
+  width: 7px;
+  height: 16px;
   border-radius: 2px;
   background: var(--violet);
   display: inline-block;
@@ -142,29 +147,31 @@ a{ color:inherit; }
 .control-panel-inputs {
   display: flex;
   align-items: center;
-  gap: 20px;
+  gap: 24px;
   flex-wrap: wrap;
 }
 .date-input-group {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 12px;
 }
 .date-input-group label {
-  font-size: 12.5px;
+  font-size: 13px;
   color: var(--text-mid);
+  font-weight: 500;
 }
 .date-input-group input[type="date"] {
   background: var(--bg-panel-raised);
   border: 1px solid var(--line);
   color: var(--text-hi);
   font-family: var(--thai);
-  font-size: 13px;
-  padding: 8px 12px;
+  font-size: 14px;
+  padding: 10px 15px;
   border-radius: 8px;
   outline: none;
-  min-width: 150px;
+  min-width: 170px;
   cursor: pointer;
+  transition: all 0.2s;
 }
 .date-input-group input[type="date"]::-webkit-calendar-picker-indicator {
   filter: invert(1);
@@ -172,239 +179,264 @@ a{ color:inherit; }
 }
 .date-input-group input[type="date"]:focus {
   border-color: var(--amber);
+  box-shadow: 0 0 8px rgba(255, 179, 71, 0.2);
 }
 
 #filterStatusBadge {
   font-size: 12px;
   color: var(--teal);
-  font-weight: 500;
+  font-weight: 600;
   display: none;
   align-items: center;
-  gap: 6px;
+  gap: 8px;
   background: var(--teal-dim);
-  padding: 6px 14px;
+  padding: 8px 16px;
   border: 1px solid rgba(45, 212, 191, 0.3);
   border-radius: 8px;
+  font-family: var(--mono);
 }
 #filterStatusDot {
-  width: 6px;
-  height: 6px;
+  width: 7px;
+  height: 7px;
   border-radius: 50%;
   background: var(--teal);
-  animation: pulse 1s infinite;
+  animation: pulse 1.2s infinite;
 }
 
 @keyframes pulse {
-  0% { opacity: 0.3; transform: scale(0.9); }
+  0% { opacity: 0.4; transform: scale(0.9); }
   50% { opacity: 1; transform: scale(1.1); }
-  100% { opacity: 0.3; transform: scale(0.9); }
+  100% { opacity: 0.4; transform: scale(0.9); }
 }
 
-/* heat strip - signature element */
+/* heat strip */
 .heatstrip{
-  border:1px solid var(--line); border-radius:14px;
-  background:var(--bg-panel); padding:20px 22px 16px;
-  margin-bottom: 28px;
+  border:1px solid var(--line); border-radius:16px;
+  background:var(--bg-panel); padding:22px 25px 18px;
+  margin-bottom: 32px;
 }
-.heatstrip-head{ display:flex; justify-content:space-between; align-items:center; margin-bottom:16px; }
-.heatstrip-title{ font-family:var(--display); font-size:13.5px; font-weight:600; color:var(--text-hi); display:flex; align-items:center; gap:9px; }
-.heatstrip-title .tag{ width:6px; height:14px; border-radius:2px; background:var(--amber); display:inline-block; }
-.heatstrip-legend{ display:flex; align-items:center; gap:8px; font-family:var(--mono); font-size:10.5px; color:var(--text-low); }
-.legend-grad{ width:90px; height:7px; border-radius:4px; background:linear-gradient(90deg, #1B2740, var(--amber)); }
-.heat-rows{ display:flex; flex-direction:column; gap:7px; }
-.heat-row{ display:grid; grid-template-columns:160px 1fr 46px; gap:14px; align-items:center; }
-.heat-label{ font-size:12.5px; color:var(--text-mid); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
-.heat-track{ height:20px; border-radius:5px; background:var(--bg-panel-raised); position:relative; overflow:hidden; }
-.heat-fill{ height:100%; border-radius:5px; transition:width 1s cubic-bezier(.16,1,.3,1); }
-.heat-count{ font-family:var(--mono); font-size:12px; color:var(--text-hi); text-align:right; }
+.heatstrip-head{ display:flex; justify-content:space-between; align-items:center; margin-bottom:18px; }
+.heatstrip-title{ font-family:var(--thai); font-size:15px; font-weight:600; color:var(--text-hi); display:flex; align-items:center; gap:10px; }
+.heatstrip-title .tag{ width:7px; height:16px; border-radius:2px; background:var(--coral); display:inline-block; } 
+.heatstrip-legend{ display:flex; align-items:center; gap:10px; font-family:var(--mono); font-size:11px; color:var(--text-low); }
+.legend-grad{ width:110px; height:8px; border-radius:4px; background:linear-gradient(90deg, #1B2740, var(--coral)); } 
+.heat-rows{ display:flex; flex-direction:column; gap:9px; }
+.heat-row{ display:grid; grid-template-columns:180px 1fr 50px; gap:16px; align-items:center; }
+.heat-label{ font-size:13px; color:var(--text-mid); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; font-weight: 500; }
+.heat-track{ height:22px; border-radius:6px; background:var(--bg-panel-raised); position:relative; overflow:hidden; }
+.heat-fill{ height:100%; border-radius:6px; transition:width 1.2s cubic-bezier(.16,1,.3,1); }
+.heat-count{ font-family:var(--display); font-size:14px; color:var(--text-hi); text-align:right; font-weight: 600; }
 
 /* ---------- KPI strip ---------- */
-.kpi-grid{ display:grid; grid-template-columns:repeat(5, 1fr); gap:14px; margin-bottom:32px; }
+.kpi-grid{ display:grid; grid-template-columns:repeat(5, 1fr); gap:16px; margin-bottom:35px; }
 .kpi-card{
-  border:1px solid var(--line); border-radius:13px; background:var(--bg-panel);
-  padding:19px 20px; position:relative; overflow:hidden;
+  border:1px solid var(--line); border-radius:14px; background:var(--bg-panel);
+  padding:22px 24px; position:relative; overflow:hidden;
+  transition: transform 0.2s, box-shadow 0.2s;
 }
-.kpi-card::before{
-  content:''; position:absolute; top:0; left:0; width:100%; height:2px;
-}
+.kpi-card:hover { transform: translateY(-3px); box-shadow: 0 10px 25px rgba(0,0,0,0.3); } 
+.kpi-card::before{ content:''; position:absolute; top:0; left:0; width:100%; height:3px; } 
 .kpi-card.k-total::before{ background:var(--violet); }
 .kpi-card.k-done::before{ background:var(--teal); }
 .kpi-card.k-pending::before{ background:var(--amber); }
 .kpi-card.k-high::before{ background:var(--coral); }
 .kpi-card.k-sla::before{ background:var(--violet); }
-.kpi-label{ font-family:var(--mono); font-size:10.5px; color:var(--text-low); text-transform:uppercase; letter-spacing:0.8px; margin-bottom:10px; }
-.kpi-value{ font-family:var(--display); font-size:30px; font-weight:600; color:var(--text-hi); line-height:1; display:flex; align-items:baseline; gap:5px; }
-.kpi-value .unit{ font-size:13px; color:var(--text-low); font-weight:400; }
-.kpi-sub{ font-size:12px; color:var(--text-mid); margin-top:8px; }
-.kpi-sub.up{ color:var(--teal); }
-.kpi-sub.down{ color:var(--coral); }
+
+.kpi-label{ font-family:var(--mono); font-size:11px; color:var(--text-low); text-transform:uppercase; letter-spacing:1px; margin-bottom:12px; font-weight: 500; }
+.kpi-value{ 
+  font-family:var(--display); 
+  font-size:36px;  
+  font-weight:700; 
+  color:var(--text-hi); line-height:1; display:flex; align-items:baseline; gap:6px; 
+}
+.kpi-value .unit{ font-size:14px; color:var(--text-mid); font-weight:400; font-family: var(--thai); }
+.kpi-sub{ font-size:13px; color:var(--text-mid); margin-top:10px; font-weight: 400;}
+
+.kpi-sub.up{ color:var(--teal); font-weight: 500; }      
+.kpi-sub.down{ color:var(--coral); font-weight: 600; }    
 
 /* ---------- panels grid ---------- */
-.panel-grid{ display:grid; grid-template-columns:1fr 1fr; gap:18px; margin-bottom:18px; }
+.panel-grid{ display:grid; grid-template-columns:1fr 1fr; gap:20px; margin-bottom:20px; }
 .panel{
-  border:1px solid var(--line); border-radius:14px; background:var(--bg-panel);
-  padding:22px; display:flex; flex-direction:column;
-  transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+  border:1px solid var(--line); border-radius:16px; background:var(--bg-panel);
+  padding:25px; display:flex; flex-direction:column;
+  transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.3s ease;
 }
 .panel:hover {
-  border-color: rgba(240, 168, 69, 0.4);
-  box-shadow: 0 8px 24px rgba(11, 18, 32, 0.5);
+  border-color: rgba(255, 179, 71, 0.4);
+  box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+  transform: translateY(-1px);
 }
 .panel.full{ grid-column:1 / -1; }
-.panel-head{ display:flex; justify-content:space-between; align-items:center; margin-bottom:4px; }
-.panel-title{ font-family:var(--display); font-size:14.5px; font-weight:600; color:var(--text-hi); }
-.panel-note{ font-family:var(--mono); font-size:10.5px; color:var(--text-low); }
-.panel-desc{ font-size:12px; color:var(--text-mid); margin-bottom:16px; margin-top:3px; }
+.panel-head{ display:flex; justify-content:space-between; align-items:center; margin-bottom:6px; }
+.panel-title{ font-family:var(--thai); font-size:16px; font-weight:700; color:var(--text-hi); letter-spacing: 0.2px;}
+.panel-note{ font-family:var(--mono); font-size:11px; color:var(--text-low); }
+.panel-desc{ font-size:13px; color:var(--text-mid); margin-bottom:18px; margin-top:4px; line-height: 1.5; }
 
-/* bar list (category / rootcause) */
-.bar-list{ display:flex; flex-direction:column; gap:11px; }
-.bar-row{ display:grid; grid-template-columns:1fr; gap:5px; }
+/* bar list */
+.bar-list{ display:flex; flex-direction:column; gap:12px; }
+.bar-row{ display:grid; grid-template-columns:1fr; gap:6px; }
 .bar-row-top{ display:flex; justify-content:space-between; align-items:baseline; gap:10px; }
-.bar-row-name{ font-size:12.5px; color:var(--text-hi); }
-.bar-row-val{ font-family:var(--mono); font-size:12px; color:var(--text-mid); flex-shrink:0; }
-.bar-track{ height:9px; border-radius:5px; background:var(--bg-panel-raised); overflow:hidden; }
-.bar-fill{ height:100%; border-radius:5px; transition:width 1s cubic-bezier(.16,1,.3,1); }
+.bar-row-name{ font-size:13px; color:var(--text-hi); font-weight: 500; }
+.bar-row-val{ font-family:var(--mono); font-size:12px; color:var(--text-mid); flex-shrink:0; font-weight: 500;}
+.bar-track{ height:10px; border-radius:5px; background:var(--bg-panel-raised); overflow:hidden; }
+.bar-fill{ height:100%; border-radius:5px; transition:width 1.2s cubic-bezier(.16,1,.3,1); }
 
 /* donut */
-.donut-wrap{ display:flex; align-items:center; gap:24px; flex-wrap:wrap; justify-content:center; }
-.donut-legend{ display:flex; flex-direction:column; gap:10px; flex:1; min-width:160px; }
-.donut-legend-item{ display:flex; align-items:center; gap:9px; font-size:12.5px; }
-.donut-dot{ width:9px; height:9px; border-radius:50%; flex-shrink:0; }
-.donut-legend-name{ color:var(--text-mid); flex:1; }
-.donut-legend-val{ font-family:var(--mono); color:var(--text-hi); font-size:12px; }
+.donut-wrap{ display:flex; align-items:center; gap:28px; flex-wrap:wrap; justify-content:center; }
+.donut-legend{ display:flex; flex-direction:column; gap:11px; flex:1; min-width:180px; }
+.donut-legend-item{ display:flex; align-items:center; gap:10px; font-size:13px; }
+.donut-dot{ width:10px; height:10px; border-radius:50%; flex-shrink:0; }
+.donut-legend-name{ color:var(--text-mid); flex:1; font-weight: 400; }
+.donut-legend-val{ font-family:var(--mono); color:var(--text-hi); font-size:12px; font-weight: 600; }
 
 /* trend chart */
-.trend-svg-wrap{ width:100%; overflow-x:auto; }
+.trend-svg-wrap{ width:100%; overflow-x:auto; padding-top: 5px;}
 
 /* assignee cards */
-.assignee-grid{ display:grid; grid-template-columns:repeat(auto-fit, minmax(140px,1fr)); gap:12px; }
-.assignee-card{ background:var(--bg-panel-raised); border:1px solid var(--line-soft); border-radius:10px; padding:14px 16px; }
-.assignee-name{ font-size:12.5px; color:var(--text-mid); margin-bottom:8px; }
-.assignee-count{ font-family:var(--display); font-size:22px; font-weight:600; color:var(--text-hi); }
-.assignee-bar{ height:5px; border-radius:3px; background:var(--bg-deep); margin-top:9px; overflow:hidden; }
+.assignee-grid{ display:grid; grid-template-columns:repeat(auto-fit, minmax(150px,1fr)); gap:14px; }
+.assignee-card{ background:var(--bg-panel-raised); border:1px solid var(--line-soft); border-radius:12px; padding:16px 18px; }
+.assignee-name{ font-size:13px; color:var(--text-mid); margin-bottom:10px; font-weight: 500; }
+.assignee-count{ font-family:var(--display); font-size:26px; font-weight:700; color:var(--text-hi); line-height: 1; }
+.assignee-bar{ height:6px; border-radius:3px; background:var(--bg-deep); margin-top:10px; overflow:hidden; }
 .assignee-bar-fill{ height:100%; border-radius:3px; background:var(--violet); }
 
 /* table */
-.table-scroll{ overflow-x:auto; }
-table{ width:100%; border-collapse:collapse; font-size:12.5px; }
+.table-scroll{ overflow-x:auto; margin-top: 8px;}
+table{ width:100%; border-collapse:collapse; font-size:13px; min-width: 900px; }
 thead th{
-  text-align:left; font-family:var(--mono); font-size:10px; text-transform:uppercase;
-  letter-spacing:0.6px; color:var(--text-low); padding:0 12px 10px; border-bottom:1px solid var(--line);
-  white-space:nowrap;
+  text-align:left; font-family:var(--mono); font-size:11px; text-transform:uppercase;
+  letter-spacing:1px; color:var(--text-low); padding:0 15px 12px; border-bottom:2px solid var(--line);
+  white-space:nowrap; font-weight: 600;
 }
-tbody td{ padding:11px 12px; border-bottom:1px solid var(--line-soft); color:var(--text-mid); vertical-align:top; }
+tbody td{ padding:13px 15px; border-bottom:1px solid var(--line-soft); color:var(--text-mid); vertical-align:top; line-height: 1.4; }
 tbody tr:hover{ background:var(--bg-panel-raised); }
-tbody td.case-id{ font-family:var(--mono); color:var(--text-hi); font-size:11.5px; white-space:nowrap; }
-tbody td.issue-text{ color:var(--text-hi); max-width:280px; }
-.badge{ display:inline-flex; align-items:center; padding:3px 9px; border-radius:100px; font-size:11px; font-weight:500; white-space:nowrap; }
+tbody td.case-id{ font-family:var(--mono); color:var(--text-hi); font-size:12px; white-space:nowrap; font-weight: 600; }
+tbody td.issue-text{ color:var(--text-hi); max-width:300px; font-weight: 400; }
+.badge{ display:inline-flex; align-items:center; padding:4px 11px; border-radius:100px; font-size:11px; font-weight:600; white-space:nowrap; font-family: var(--thai); }
+
 .badge-done{ background:var(--teal-dim); color:var(--teal); }
 .badge-pending{ background:var(--amber-dim); color:var(--amber); }
 .badge-review{ background:var(--violet-dim); color:var(--violet); }
-.badge-cancel{ background:#5C688922; color:var(--text-low); }
-.badge-high{ background:var(--coral-dim); color:var(--coral); }
+.badge-cancel{ background: rgba(92, 104, 137, 0.15); color:var(--text-low); }
+
+.badge-high{ background:var(--coral-dim); color:var(--coral); } 
 .badge-medium{ background:var(--amber-dim); color:var(--amber); }
 .badge-low{ background:#2DD4BF1A; color:var(--teal); }
-.badge-unset{ background:#5C688922; color:var(--text-low); }
+.badge-unset{ background:rgba(92, 104, 137, 0.15); color:var(--text-low); }
 
 /* filters */
-.filter-bar{ display:flex; gap:10px; margin-bottom:16px; flex-wrap:wrap; align-items:center; }
+.filter-bar{ display:flex; gap:12px; margin-bottom:18px; flex-wrap:wrap; align-items:center; background: var(--bg-panel-raised); padding: 15px; border-radius: 10px; border: 1px solid var(--line-soft); }
 .filter-bar select, .filter-bar input{
-  background:var(--bg-panel-raised); border:1px solid var(--line); color:var(--text-hi);
-  font-family:var(--thai); font-size:12.5px; padding:8px 12px; border-radius:8px; outline:none;
+  background:var(--bg-panel); border:1px solid var(--line); color:var(--text-hi);
+  font-family:var(--thai); font-size:13px; padding:9px 14px; border-radius:8px; outline:none; transition: all 0.2s;
 }
-.filter-bar select:focus, .filter-bar input:focus{ border-color:var(--amber); }
-.filter-bar input{ min-width:220px; }
-.filter-count{ font-family:var(--mono); font-size:11.5px; color:var(--text-low); margin-left:auto; }
+.filter-bar select:focus, .filter-bar input:focus{ border-color:var(--amber); box-shadow: 0 0 8px rgba(255, 179, 71, 0.2); }
+.filter-bar input{ min-width:250px; }
+.filter-count{ font-family:var(--mono); font-size:12px; color:var(--text-low); margin-left:auto; font-weight: 500;}
 
 /* monthly comparison */
-.monthly-delta-row{ display:flex; gap:8px; margin-top:14px; overflow-x:auto; padding-bottom:2px; }
+.monthly-delta-row{ display:flex; gap:10px; margin-top:16px; overflow-x:auto; padding-bottom:5px; padding-left: 2px;}
 .delta-chip{
-  flex:0 0 auto; min-width:90px; text-align:center; padding:9px 8px; border-radius:9px;
+  flex:0 0 auto; min-width:100px; text-align:center; padding:11px 10px; border-radius:10px;
   background:var(--bg-panel-raised); border:1px solid var(--line-soft);
+  transition: all 0.2s;
 }
-.delta-chip .dc-month{ font-family:var(--mono); font-size:10px; color:var(--text-low); margin-bottom:4px; }
-.delta-chip .dc-val{ font-family:var(--display); font-size:15px; font-weight:600; color:var(--text-hi); }
-.delta-chip .dc-pct{ font-family:var(--mono); font-size:10.5px; margin-top:3px; }
-.delta-chip .dc-pct.up{ color:var(--coral); }
-.delta-chip .dc-pct.down{ color:var(--teal); }
+.delta-chip:hover { border-color: var(--line); background: var(--bg-panel); }
+.delta-chip .dc-month{ font-family:var(--mono); font-size:11px; color:var(--text-low); margin-bottom:5px; font-weight: 500; }
+.delta-chip .dc-val{ font-family:var(--display); font-size:16px; font-weight:700; color:var(--text-hi); }
+.delta-chip .dc-pct{ font-family:var(--mono); font-size:11px; margin-top:4px; font-weight: 600;}
+.delta-chip .dc-pct.up{ color:var(--coral); }   
+.delta-chip .dc-pct.down{ color:var(--teal); } 
 .delta-chip .dc-pct.flat{ color:var(--text-low); }
 
 /* HQ deep-dive grid */
-.hq-grid{ display:grid; grid-template-columns:1.25fr 1fr; gap:24px; align-items:start; }
-.hq-bars{ display:flex; flex-direction:column; gap:12px; }
-.hq-stat-strip{ display:grid; grid-template-columns:repeat(3,1fr); gap:10px; margin-bottom:18px; }
-.hq-stat{ background:var(--bg-panel-raised); border:1px solid var(--line-soft); border-radius:10px; padding:13px 14px; }
-.hq-stat-label{ font-family:var(--mono); font-size:10px; color:var(--text-low); text-transform:uppercase; letter-spacing:0.6px; margin-bottom:6px; }
-.hq-stat-val{ font-family:var(--display); font-size:20px; font-weight:600; color:var(--text-hi); }
-.hq-dept-row{ display:grid; grid-template-columns:1fr; gap:5px; }
+.hq-grid{ display:grid; grid-template-columns:1.35fr 1fr; gap:28px; align-items:start; }
+.hq-bars{ display:flex; flex-direction:column; gap:14px; }
+.hq-stat-strip{ display:grid; grid-template-columns:repeat(3,1fr); gap:12px; margin-bottom:20px; }
+.hq-stat{ background:var(--bg-panel-raised); border:1px solid var(--line-soft); border-radius:12px; padding:15px 16px; text-align: center;}
+.hq-stat-label{ font-family:var(--mono); font-size:11px; color:var(--text-low); text-transform:uppercase; letter-spacing:0.8px; margin-bottom:8px; font-weight: 500;}
+.hq-stat-val{ font-family:var(--display); font-size:22px; font-weight:700; color:var(--text-hi); line-height: 1;}
+.hq-dept-row{ display:grid; grid-template-columns:1fr; gap:6px; }
 .hq-dept-top{ display:flex; justify-content:space-between; align-items:baseline; gap:10px; }
-.hq-dept-name{ font-size:12.5px; color:var(--text-hi); display:flex; align-items:center; gap:7px; }
-.hq-dept-val{ font-family:var(--mono); font-size:12px; color:var(--text-mid); flex-shrink:0; }
-.hq-dept-sub{ font-size:10.5px; color:var(--text-low); margin-top:2px; }
-@media (max-width: 980px){
+.hq-dept-name{ font-size:13px; color:var(--text-hi); display:flex; align-items:center; gap:8px; font-weight: 500;}
+.hq-dept-val{ font-family:var(--mono); font-size:12px; color:var(--text-mid); flex-shrink:0; font-weight: 500;}
+.hq-dept-sub{ font-size:11px; color:var(--text-low); margin-top:3px; line-height: 1.4; font-weight: 400;}
+@media (max-width: 1080px){
   .hq-grid{ grid-template-columns:1fr; }
 }
-.foot{ margin-top:36px; padding-top:22px; border-top:1px solid var(--line-soft); display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; }
-.foot-text{ font-family:var(--mono); font-size:11px; color:var(--text-low); }
+.foot{ margin-top:45px; padding-top:25px; border-top:1px solid var(--line-soft); display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px; }
+.foot-text{ font-family:var(--mono); font-size:11px; color:var(--text-low); letter-spacing: 0.3px; }
 
 /* upload overlay */
 .upload-modal{
-  position:fixed; inset:0; background:rgba(8,12,22,0.82); backdrop-filter:blur(6px);
+  position:fixed; inset:0; background:rgba(6,10,18,0.85); backdrop-filter:blur(8px);
   display:none; align-items:center; justify-content:center; z-index:100; padding:24px;
 }
 .upload-modal.show{ display:flex; }
 .upload-box{
-  width:100%; max-width:480px; background:var(--bg-panel); border:1px solid var(--line);
-  border-radius:16px; padding:32px; text-align:center;
+  width:100%; max-width:500px; background:var(--bg-panel); border:1px solid var(--line);
+  border-radius:20px; padding:35px; text-align:center; box-shadow: 0 20px 50px rgba(0,0,0,0.5);
 }
-.upload-box h3{ font-family:var(--display); font-size:18px; margin-bottom:8px; }
-.upload-box p{ font-size:13px; color:var(--text-mid); margin-bottom:22px; }
+.upload-box h3{ font-family:var(--thai); font-size:19px; margin-bottom:10px; font-weight: 700;}
+.upload-box p{ font-size:14px; color:var(--text-mid); margin-bottom:25px; line-height: 1.6;}
 .dropzone{
-  border:1.5px dashed var(--line); border-radius:12px; padding:36px 20px;
-  cursor:pointer; transition:all .15s; margin-bottom:16px;
+  border:2px dashed var(--line); border-radius:14px; padding:40px 25px;
+  cursor:pointer; transition:all .2s ease; margin-bottom:18px; background: var(--bg-panel-raised);
 }
 .dropzone:hover, .dropzone.drag{ border-color:var(--amber); background:var(--amber-dim); }
-.dropzone .dz-icon{ font-size:28px; margin-bottom:10px; }
-.dropzone .dz-text{ font-size:13px; color:var(--text-mid); }
-.dropzone .dz-sub{ font-family:var(--mono); font-size:11px; color:var(--text-low); margin-top:6px; }
-.upload-status{ font-family:var(--mono); font-size:12px; color:var(--text-mid); min-height:18px; margin-bottom:14px; }
+.dropzone .dz-icon{ font-size:32px; margin-bottom:12px; }
+.dropzone .dz-text{ font-size:14px; color:var(--text-mid); font-weight: 500;}
+.dropzone .dz-sub{ font-family:var(--mono); font-size:11px; color:var(--text-low); margin-top:8px; }
+.upload-status{ font-family:var(--mono); font-size:12px; color:var(--text-mid); min-height:20px; margin-bottom:16px; font-weight: 500;}
 .upload-status.ok{ color:var(--teal); }
 .upload-status.err{ color:var(--coral); }
-.modal-actions{ display:flex; gap:10px; justify-content:center; }
+.modal-actions{ display:flex; gap:12px; justify-content:center; }
 
-/* empty state */
-.empty-note{ font-size:12.5px; color:var(--text-low); text-align:center; padding:30px; }
-
-/* tooltips on bars */
+.empty-note{ font-size:13px; color:var(--text-low); text-align:center; padding:40px; font-weight: 400;}
 [data-tip]{ position:relative; }
 
-@media (max-width: 980px){
-  .kpi-grid{ grid-template-columns:repeat(2,1fr); }
+::-webkit-scrollbar { width: 8px; height: 8px; }
+::-webkit-scrollbar-track { background: var(--bg-deep); }
+::-webkit-scrollbar-thumb { background: var(--line); border-radius: 4px; }
+::-webkit-scrollbar-thumb:hover { background: var(--text-low); }
+
+@media (max-width: 1080px){
+  .kpi-grid{ grid-template-columns:repeat(3,1fr); }
   .panel-grid{ grid-template-columns:1fr; }
-  .hero h1{ font-size:25px; }
+  .hero h1{ font-size:28px; }
 }
-@media (max-width: 720px){
-  .topbar .wrap{ flex-wrap:wrap; }
-  .topbar-actions{ width:100%; justify-content:space-between; }
-  .status-pill{ flex:1; min-width:0; }
+@media (max-width: 768px){
+  .topbar .wrap{ flex-wrap:wrap; gap: 15px;}
+  .topbar-actions{ width:100%; justify-content:space-between; gap: 10px;}
+  .status-pill{ flex:1; min-width:0; padding: 7px 12px;}
   .status-pill span:last-child{ overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+  .kpi-grid{ grid-template-columns:repeat(2,1fr); }
+  .control-panel-inputs { gap: 15px; }
+  .date-input-group input[type="date"] { min-width: 140px; padding: 8px 12px; font-size: 13px;}
 }
 @media (max-width: 600px){
   .kpi-grid{ grid-template-columns:1fr; }
-  .heat-row{ grid-template-columns:100px 1fr 36px; gap:8px; }
-  .wrap{ padding:0 16px; }
-  .brand-text .title{ font-size:14px; }
-  .topbar-actions{ gap:8px; }
-  .status-pill{ font-size:10.5px; padding:6px 10px; }
-  .btn{ font-size:12px; padding:8px 12px; }
-}
-
-@media (prefers-reduced-motion: reduce){
-  .heat-fill, .bar-fill{ transition:none; }
+  .heat-row{ grid-template-columns:120px 1fr 40px; gap:10px; }
+  .wrap{ padding:0 20px; }
+  .brand-text .title{ font-size:15px; }
+  .btn{ font-size:13px; padding:8px 15px; }
+  .hq-grid{ gap: 20px;}
 }
 </style>
 </head>
 <body>
+
+<div id="loginOverlay" style="position:fixed; inset:0; background:#0B1220; display:flex; align-items:center; justify-content:center; z-index:9999; font-family:'IBM Plex Sans Thai', sans-serif;">
+  <div style="background:#121A2C; border:1px solid #243254; padding:40px; border-radius:16px; width:100%; max-width:400px; text-align:center; box-shadow: 0 20px 50px rgba(0,0,0,0.5);">
+    <div style="width:50px; height:50px; background:linear-gradient(135deg, #FFB347, #C97A1F); border-radius:12px; display:flex; align-items:center; justify-content:center; margin:0 auto 20px; font-weight:bold; color:#0B1220; font-size:20px;">🔒</div>
+    <h3 style="color:#EDF1FA; margin-bottom:10px; font-size:20px; font-weight:700;">IT Helpdesk Operations</h3>
+    <p style="color:#9AA8C7; font-size:13px; margin-bottom:25px;">กรุณาใส่รหัสผ่านผู้ดูแลระบบเพื่อเข้าสู่แดชบอร์ด</p>
+    <input type="password" id="adminPasswordInput" placeholder="ใส่รหัสผ่านที่นี่..." style="width:100%; background:#161F35; border:1px solid #243254; color:#EDF1FA; padding:12px 16px; border-radius:8px; outline:none; font-size:15px; margin-bottom:15px; text-align:center;">
+    <div id="loginErrorMsg" style="color:#EF4444; font-size:13px; margin-bottom:15px; display:none; font-weight:550;">✗ รหัสผ่านไม่ถูกต้อง ลองใหม่อีกครั้ง</div>
+    <button id="submitPasswordBtn" style="width:100%; background:linear-gradient(180deg, #FFB347, #C97A1F); color:#0B1220; border:none; padding:12px; border-radius:8px; font-weight:600; font-size:15px; cursor:pointer; transition:all 0.2s;">เข้าสู่ระบบ ⚡</button>
+  </div>
+</div>
 
 <div class="topbar">
   <div class="wrap">
@@ -412,12 +444,12 @@ tbody td.issue-text{ color:var(--text-hi); max-width:280px; }
       <div class="brand-mark">IT</div>
       <div class="brand-text">
         <div class="title">IT Helpdesk Operations</div>
-        <div class="sub">CASE INTELLIGENCE · SUMMARY VIEW</div>
+        <div class="sub">EXECUTIVE SUMMARY DASHBOARD</div> 
       </div>
     </div>
     <div class="topbar-actions">
       <div class="status-pill"><span class="status-dot"></span><span id="dataSourceLabel">ข้อมูลล่าสุด: ไฟล์ที่อัปโหลด</span></div>
-      <button class="btn" id="openUploadBtn">⤓ อัปโหลดไฟล์ใหม่</button>
+      <button class="btn" id="openUploadBtn">⤓ อัปโหลดไฟล์ Excel</button>
     </div>
   </div>
 </div>
@@ -426,136 +458,126 @@ tbody td.issue-text{ color:var(--text-hi); max-width:280px; }
   <div class="hero">
     <div class="hero-head">
       <div>
-        <div class="hero-eyebrow">รายงานสรุปสำหรับผู้บริหาร</div>
-        <h1>ภาพรวมการแจ้งซ่อมและปัญหาไอที ทุกสาขา</h1>
-        <p class="lede">สรุปจำนวนเคส สถานะการดำเนินงาน จุดที่เกิดปัญหาบ่อย และภาระงานของทีมไอที จากระบบ Helpdesk เพื่อสนับสนุนการตัดสินใจเชิงบริหาร</p>
+        <div class="hero-eyebrow">REPORTING PORTAL</div> 
+        <h1>ภาพรวมการแจ้งซ่อมและปัญหาไอที</h1>
+        <p class="lede">สรุปสถานะการดำเนินงาน จุดที่เกิดปัญหาบ่อย และประสิทธิภาพทีมไอที เพื่อสนับสนุนการตัดสินใจเชิงบริหาร</p>
       </div>
       <div class="period-box">
-        <div>ช่วงข้อมูล</div>
+        <div>ช่วงเวลาข้อมูลในระบบ</div>
         <div class="range" id="periodRange">—</div>
       </div>
     </div>
 
-    <!-- period controls panel -->
     <div class="control-panel">
       <div class="control-panel-head">
-        <div class="control-panel-title"><span class="tag"></span>📅 กำหนดช่วงเวลาการวิเคราะห์ข้อมูล (Date Range Selection)</div>
-        <div style="display:flex; gap:10px; flex-wrap:wrap;">
-          <button class="btn btn-primary" id="applyDatesBtn">⚡ กรองข้อมูลตามวันที่</button>
-          <button class="btn" id="resetDatesBtn">🔄 รีเซ็ตช่วงเวลาทั้งหมด</button>
+        <div class="control-panel-title"><span class="tag"></span>📅 เลือกช่วงเวลาเพื่อวิเคราะห์ผลการดำเนินงาน</div> 
+        <div style="display:flex; gap:12px; flex-wrap:wrap;">
+          <button class="btn btn-primary" id="applyDatesBtn">⚡ อัปเดตมุมมอง</button>
+          <button class="btn" id="resetDatesBtn">🔄 รีเซ็ตทั้งหมด</button>
         </div>
       </div>
       <div class="control-panel-inputs">
         <div class="date-input-group">
-          <label for="dashStartDate">เริ่มต้น:</label>
+          <label for="dashStartDate">ตั้งแต่วันที่:</label>
           <input type="date" id="dashStartDate">
         </div>
         <div class="date-input-group">
-          <label for="dashEndDate">สิ้นสุด:</label>
+          <label for="dashEndDate">ถึงวันที่:</label>
           <input type="date" id="dashEndDate">
         </div>
         <div id="filterStatusBadge">
           <span id="filterStatusDot"></span>
-          <span>รีเฟรชข้อมูลเรียบร้อยแล้ว</span>
+          <span>แสดงผลข้อมูลช่วงเวลาใหม่เรียบร้อยแล้ว</span>
         </div>
       </div>
     </div>
 
-    <!-- signature heat strip -->
     <div class="heatstrip">
       <div class="heatstrip-head">
-        <div class="heatstrip-title"><span class="tag"></span>แผนที่ความหนาแน่นปัญหา — ตามสาขา/หน่วยงาน (Depot)</div>
+        <div class="heatstrip-title"><span class="tag"></span>ความหนาแน่นของปัญหา — แยกตามสาขา/หน่วยงาน (Top 10 Depots)</div> 
         <div class="heatstrip-legend">น้อย <span class="legend-grad"></span> มาก</div>
       </div>
       <div class="heat-rows" id="heatRows"></div>
     </div>
   </div>
 
-  <!-- KPI strip -->
   <div class="kpi-grid" id="kpiGrid"></div>
 
-  <!-- Row: Category breakdown + Status Donut -->
   <div class="panel-grid">
     <div class="panel">
-      <div class="panel-head"><div class="panel-title">ปัญหาตามประเภท (Category)</div><div class="panel-note" id="catCountNote"></div></div>
-      <div class="panel-desc">ประเภทปัญหาที่ถูกแจ้งเข้ามามากที่สุด เรียงจากมากไปน้อย</div>
+      <div class="panel-head"><div class="panel-title">สาเหตุการแจ้งปัญหา (Top Categories)</div><div class="panel-note" id="catCountNote"></div></div>
+      <div class="panel-desc">ประเภทปัญหาที่ถูกแจ้งเข้ามามากที่สุด 5 อันดับแรก</div>
       <div class="bar-list" id="categoryBars"></div>
     </div>
     <div class="panel">
-      <div class="panel-head"><div class="panel-title">สถานะเคสโดยรวม</div><div class="panel-note" id="statusCountNote"></div></div>
-      <div class="panel-desc">สัดส่วนเคสที่เสร็จสิ้น / รอดำเนินการ / รอตรวจสอบ / ยกเลิก</div>
+      <div class="panel-head"><div class="panel-title">สถานะการดำเนินงานรวม</div><div class="panel-note" id="statusCountNote"></div></div>
+      <div class="panel-desc">สัดส่วนเคสที่ ปิดงานแล้ว / กำลังทำ / รอตรวจสอบ / ยกเลิก</div>
       <div class="donut-wrap" id="statusDonut"></div>
     </div>
   </div>
 
-  <!-- Row: Trend -->
   <div class="panel-grid">
     <div class="panel full">
-      <div class="panel-head"><div class="panel-title">แนวโน้มจำนวนเคสตามช่วงเวลา</div><div class="panel-note" id="trendNote"></div></div>
-      <div class="panel-desc">จำนวนเคสที่เข้ามาในแต่ละสัปดาห์ เทียบกับจำนวนที่ปิดงานสำเร็จ</div>
+      <div class="panel-head"><div class="panel-title">แนวโน้มจำนวนเคสรายสัปดาห์ (Weekly Trend)</div><div class="panel-note" id="trendNote"></div></div>
+      <div class="panel-desc">เปรียบเทียบจำนวนเคสที่ได้รับใหม่ กับจำนวนที่ปิดงานได้สำเร็จในแต่ละสัปดาห์</div>
       <div class="trend-svg-wrap" id="trendChart"></div>
     </div>
   </div>
 
-  <!-- Row: Monthly comparison -->
   <div class="panel-grid">
     <div class="panel full">
-      <div class="panel-head"><div class="panel-title">เทียบเดือนต่อเดือน (Month-over-Month)</div><div class="panel-note" id="monthlyNote"></div></div>
-      <div class="panel-desc">จำนวนเคสที่เข้ามาและปิดงานสำเร็จ แยกตามเดือน พร้อม % การเปลี่ยนแปลงจากเดือนก่อนหน้า</div>
+      <div class="panel-head"><div class="panel-title">เปรียบเทียบผลงานรายเดือน (Month-over-Month Performance)</div><div class="panel-note" id="monthlyNote"></div></div>
+      <div class="panel-desc">จำนวนเคสใหม่และการปิดงาน แยกตามเดือน พร้อมเปอร์เซ็นต์การเปลี่ยนแปลง</div>
       <div class="trend-svg-wrap" id="monthlyChart"></div>
       <div id="monthlyDeltaRow" class="monthly-delta-row"></div>
     </div>
   </div>
 
-  <!-- Row: Department + Priority -->
   <div class="panel-grid">
     <div class="panel">
-      <div class="panel-head"><div class="panel-title">ปัญหาตามแผนก (Department)</div><div class="panel-note" id="deptCountNote"></div></div>
-      <div class="panel-desc">หน่วยงานที่แจ้งปัญหาเข้ามามากที่สุด</div>
+      <div class="panel-head"><div class="panel-title">หน่วยงานที่แจ้งปัญหา (Top Departments)</div><div class="panel-note" id="deptCountNote"></div></div>
+      <div class="panel-desc">5 แผนกที่แจ้งปัญหาเข้ามามากที่สุด</div>
       <div class="bar-list" id="deptBars"></div>
     </div>
     <div class="panel">
-      <div class="panel-head"><div class="panel-title">ระดับความเร่งด่วน (Priority)</div><div class="panel-note" id="prioCountNote"></div></div>
-      <div class="panel-desc">สัดส่วนเคสตามระดับความสำคัญที่ตั้งไว้</div>
+      <div class="panel-head"><div class="panel-title">ระดับความเร่งด่วน (Case Priority)</div><div class="panel-note" id="prioCountNote"></div></div>
+      <div class="panel-desc">สัดส่วนเคสตามระดับความสำคัญ เพื่อการจัดสรรทรัพยากร</div>
       <div class="donut-wrap" id="prioDonut"></div>
     </div>
   </div>
 
-  <!-- Row: HQ deep-dive -->
   <div class="panel-grid">
     <div class="panel full">
       <div class="panel-head">
-        <div class="panel-title">เจาะลึก Head Office (HQ) — แยกตามแผนก</div>
+        <div class="panel-title">วิเคราะห์เจาะลึก: สำนักงานใหญ่ (Head Office Deep-Dive)</div>
         <div class="panel-note" id="hqCountNote"></div>
       </div>
-      <div class="panel-desc">HQ เป็นจุดที่มีเคสแจ้งเข้ามากที่สุดในทุกสาขา มุมมองนี้ขยายดูว่าแผนกใดภายใน HQ ที่เป็นต้นทางของปัญหา พร้อมวิเคราะห์ประเภทปัญหาหลักของแผนกนั้นเพื่อวางแผนแก้ไขที่ต้นเหตุ</div>
+      <div class="panel-desc">HQ เป็นจุดที่มีการแจ้งปัญหาหนาแน่นที่สุด มุมมองนี้แสดงแผนกที่เป็นต้นทางของปัญหา พร้อมระบุประเภทปัญหาหลักและอัตราการปิดงานของแต่ละแผนก</div>
       <div class="hq-grid" id="hqGrid"></div>
     </div>
   </div>
 
-  <!-- Row: Assigned to + Root cause -->
   <div class="panel-grid">
     <div class="panel">
-      <div class="panel-head"><div class="panel-title">ภาระงานทีมไอที (Assigned to)</div><div class="panel-note" id="assigneeCountNote"></div></div>
-      <div class="panel-desc">จำนวนเคสที่รับผิดชอบ แยกตามผู้ดูแล</div>
+      <div class="panel-head"><div class="panel-title">การกระจายภาระงานทีมไอที (Team Workload)</div><div class="panel-note" id="assigneeCountNote"></div></div>
+      <div class="panel-desc">จำนวนเคสที่รับผิดชอบ แยกตามเจ้าหน้าที่ผู้ดูแล</div>
       <div class="assignee-grid" id="assigneeGrid"></div>
     </div>
     <div class="panel">
-      <div class="panel-head"><div class="panel-title">สาเหตุที่พบบ่อย (Root Cause)</div><div class="panel-note" id="rootCountNote"></div></div>
-      <div class="panel-desc">จากเคสที่มีการบันทึกสาเหตุไว้ — ใช้วางแผนป้องกันปัญหาซ้ำ</div>
+      <div class="panel-head"><div class="panel-title">วิเคราะห์สาเหตุรากเหง้า (Root Cause Analysis)</div><div class="panel-note" id="rootCountNote"></div></div>
+      <div class="panel-desc">สาเหตุที่พบจริงจากการปิดงาน (Top 8) — ใช้วางแผนป้องกันปัญหาซ้ำซาก</div>
       <div class="bar-list" id="rootBars"></div>
     </div>
   </div>
 
-  <!-- Detail table -->
   <div class="panel-grid">
     <div class="panel full">
-      <div class="panel-head"><div class="panel-title">รายการเคสทั้งหมด</div></div>
-      <div class="panel-desc">ค้นหาและกรองรายการเคสโดยละเอียด</div>
+      <div class="panel-head"><div class="panel-title">รายการเคสทั้งหมด (Data Log)</div></div>
+      <div class="panel-desc">ตารางแสดงรายละเอียดเคสตามช่วงเวลาที่เลือก พร้อมระบบค้นหาและกรองข้อมูล</div>
       <div class="filter-bar">
-        <input type="text" id="searchInput" placeholder="ค้นหา: เลขเคส, ปัญหา, สาขา, ผู้แจ้ง...">
+        <input type="text" id="searchInput" placeholder="ค้นหา: เลขเคส, รายละเอียดปัญหา, ผู้แจ้ง...">
         <select id="statusFilter"><option value="">ทุกสถานะ</option></select>
-        <select id="depotFilter"><option value="">ทุกสาขา</option></select>
+        <select id="depotFilter"><option value="">ทุกสาขา/หน่วยงาน</option></select>
         <select id="priorityFilter"><option value="">ทุกความเร่งด่วน</option></select>
         <span class="filter-count" id="filterCount"></span>
       </div>
@@ -563,7 +585,7 @@ tbody td.issue-text{ color:var(--text-hi); max-width:280px; }
         <table>
           <thead>
             <tr>
-              <th>เลขเคส</th><th>วันที่</th><th>ปัญหา</th><th>ประเภท</th><th>สาขา</th><th>แผนก</th><th>สถานะ</th><th>ความเร่งด่วน</th><th>ผู้ดูแล</th>
+              <th>เลขเคส</th><th>วันที่แจ้ง</th><th>รายละเอียดปัญหา</th><th>ประเภท</th><th>สาขา</th><th>แผนก</th><th>สถานะ</th><th>ความเร่งด่วน</th><th>ผู้ดูแล</th>
             </tr>
           </thead>
           <tbody id="tableBody"></tbody>
@@ -573,42 +595,56 @@ tbody td.issue-text{ color:var(--text-hi); max-width:280px; }
   </div>
 
   <div class="foot">
-    <div class="foot-text">IT HELPDESK DASHBOARD · สร้างโดยอัตโนมัติจากไฟล์ Excel</div>
+    <div class="foot-text">IT HELPDESK INTELLIGENCE DASHBOARD · GENERATED FROM EXCEL DATA</div>
     <div class="foot-text" id="generatedAt"></div>
   </div>
 </div>
 
-<!-- Upload Modal -->
 <div class="upload-modal" id="uploadModal">
   <div class="upload-box">
-    <h3>อัปโหลดไฟล์ Excel ใหม่</h3>
-    <p>ลากไฟล์ .xlsx ของระบบ Helpdesk มาวาง หรือคลิกเพื่อเลือกไฟล์ — แดชบอร์ดจะอัปเดตให้ทันที โดยไม่ต้องส่งให้ใครแก้โค้ด</p>
+    <h3>อัปโหลดไฟล์ข้อมูลใหม่</h3>
+    <p>ลากไฟล์ Excel (.xlsx) ที่ส่งออกออกจากระบบ Helpdesk มาวางที่นี่ หรือคลิกเพื่อเลือกไฟล์ แดชบอร์ดจะทำการอัปเดตข้อมูลทั้งหมดโดยอัตโนมัติ</p>
     <div class="dropzone" id="dropzone">
-      <div class="dz-icon">📄</div>
-      <div class="dz-text">คลิกหรือลากไฟล์มาวางที่นี่</div>
-      <div class="dz-sub">รองรับ .xlsx — คอลัมน์ต้องตรงกับไฟล์ต้นฉบับ</div>
+      <div class="dz-icon">📊</div>
+      <div class="dz-text">ลากไฟล์ Excel มาวาง หรือ คลิกเพื่อเลือกไฟล์</div>
+      <div class="dz-sub">รองรับรูปแบบไฟล์มาตรฐาน (.xlsx) เท่านั้น</div>
     </div>
     <input type="file" id="fileInput" accept=".xlsx,.xls">
     <div class="upload-status" id="uploadStatus"></div>
     <div class="modal-actions">
-      <button class="btn" id="cancelUploadBtn">ปิด</button>
+      <button class="btn" id="cancelUploadBtn">ยกเลิก</button>
     </div>
   </div>
 </div>
 
 <script>
-/* ============ EMBEDDED DATA (from most recent upload) ============ */
-const EMBEDDED_DATA = [{"caseId": "IT-WSG260005", "issue": "แก้ไขเอกสารเนื่องจากที่อยู่ลูกค้าไม่ถูกต้อง", "category": "ระบบเครือข่าย (Network/Internet)", "depot": "Head Office (HQ)", "department": "Purchase", "requester": "thiyadaJ", "datetime": "2026-03-04T13:59:00", "status": "เสร็จสิ้น", "priority": "ด่วน (High)", "assignedTo": "คุณเทพ", "resolution": "Test", "rootCause": "", "createdBy": "Thiyada Jiranuwat"}, {"caseId": "IT-WSG260007", "issue": "เนืองจากใช้เวอร์ชั่นเก่า", "category": "อุปกรณ์คอมพิวเตอร์ (Hardware)", "depot": "DC005 - สาขาอุบลราชธานี", "department": "Sales", "requester": "มุก", "datetime": "2026-07-04T10:39:00", "status": "ยกเลิก", "priority": "ปกติ (Medium)", "assignedTo": "คุณมุก", "resolution": "", "rootCause": "", "createdBy": "Thiyada Jiranuwat"}, {"caseId": "IT-WSG260008", "issue": "เข้ารหัส netsuite ไม่ได้ ผมใช้เมลล์ teppithuk@mingoicecream.com", "category": "ระบบบัญชีผู้ใช้ (Account/Access)", "depot": "Head Office (HQ)", "department": "Marketing", "requester": "เทพพิทักษ์", "datetime": "2026-08-04T06:53:00", "status": "เสร็จสิ้น", "priority": "ด่วน (High)", "assignedTo": "คุณเทพ", "resolution": "reset รหัสผ่านใน netsuite", "rootCause": "user ลืมรหัสผ่าน", "createdBy": "Tep IT"}, {"caseId": "IT-WSG260009", "issue": "เปิดโปรแกรมขายที่มือถือไม่ได้", "category": "ระบบโปรแกรมขาย POS ,เวปแอพ", "depot": "Head Office (HQ)", "department": "Marketing", "requester": "คุณเทพ", "datetime": "2026-08-04T11:48:00", "status": "เสร็จสิ้น", "priority": "ด่วน (High)", "assignedTo": "คุณเทพ", "resolution": "", "rootCause": "", "createdBy": "I.T TEST"}, {"caseId": "IT-WSG260010", "issue": "สั่งปริ้นงานที่คอม แต่ไม่มีคำสั่งงานที่ปริ้นที่เครื่องปริ้น", "category": "ซอฟต์แวร์และแอป (Software)", "depot": "Head Office (HQ)", "department": "Accounting", "requester": "คุณพวง ", "datetime": "2026-04-29T14:17:00", "status": "เสร็จสิ้น", "priority": "ด่วน (High)", "assignedTo": "คุณแทน", "resolution": "ใส่รหัสปริ้นเตอร์ของผู้ใช้งานใหม่ ", "rootCause": "", "createdBy": "AC AP"}, {"caseId": "IT-WSG260011", "issue": "ส่งเมลล์แล้ว ส่งไม่ได้ เมลล์ค้างอยู่ที่ outbox", "category": "ซอฟต์แวร์และแอป (Software)", "depot": "Head Office (HQ)", "department": "Accounting", "requester": "คุณ พวง", "datetime": "2026-04-29T14:23:00", "status": "เสร็จสิ้น", "priority": "ปกติ (Medium)", "assignedTo": "คุณแทน", "resolution": "ตั้งค่า encryption  method ฝั่ง outgoing ของ outlook เป็น none", "rootCause": "จาก วินโดว์อัพเดตแล้วทำให้ office ติดปัญหา", "createdBy": "AC AP"}, {"caseId": "IT-WSG260012", "issue": "เปิดใช้งานเครื่องขายไม่ได้ เปิด-ปิด แอพแล้วยังไม่ได้ค่ะ\nสาย 3 ไอติม สาขาปราจีน", "category": "อุปกรณ์คอมพิวเตอร์ (Hardware)", "depot": "Head Office (HQ)", "department": "IT", "requester": "ธิญาดา", "datetime": "2026-04-29T15:57:00", "status": "เสร็จสิ้น", "priority": "ไม่ระบุ", "assignedTo": "คุณมุก", "resolution": "", "rootCause": "", "createdBy": "I.T TEST"}, {"caseId": "IT-WSG260013", "issue": "เครื่องขายไม่สามารถซิงค์เครื่องได้ หน้าจอเข้าโปรแกมหมุน เปิดเน็ตปกติ (ทดสอบค่ะ)", "category": "ระบบโปรแกรมขาย POS ,เวปแอพ", "depot": "DC004 - สาขาร้อยเอ็ด", "department": "Sales", "requester": "สุกัญญา  คงชูศรี (พลอย)", "datetime": "2026-01-05T09:21:00", "status": "เสร็จสิ้น", "priority": "ด่วน (High)", "assignedTo": "คุณเทพ", "resolution": "ทดสอบ", "rootCause": "ทดสอบ", "createdBy": "Depot Roiet"}, {"caseId": "IT-WSG260014", "issue": "ไฟล์ค่าคอมสาย 7 Cj สาขาพัทยาค่ะ ", "category": "ไฟล์คำนวณคอมมิชชั่นฝ่ายขาย", "depot": "DC011 - สาขาพัทยา", "department": "Sales", "requester": " สาขาพัทยา", "datetime": "2026-02-05T09:14:00", "status": "เสร็จสิ้น", "priority": "ด่วน (High)", "assignedTo": "คุณเทพ", "resolution": "ดำเนินการได้วันจันทร์ที่ 4 พฤษภาคมช่วงบ่ายครับ", "rootCause": "ไม่ใช่ปัญหา เป็นการปรับแก้ค่าคอมสายส่ง CJ more ตามประกาศใหม่", "createdBy": "Depot Pattaya"}, {"caseId": "IT-WSG260015", "issue": "เวลาเข้า-ออกงานไม่โชว์/ดึงเวลาสแกนนิ้วพนักงานใหม่", "category": "ซอฟต์แวร์และแอป (Software)", "depot": "DC011 - สาขาพัทยา", "department": "Sales", "requester": "กมลรัตน์ (การเงิน)", "datetime": "2026-02-05T09:26:00", "status": "เสร็จสิ้น", "priority": "ปกติ (Medium)", "assignedTo": "คุณแทน", "resolution": "เพิ่มตารางช่วงกะเวลาการทำงานของพนักงานให้ใหม่", "rootCause": "", "createdBy": "Depot Pattaya"}, {"caseId": "IT-WSG260016", "issue": "คาดว่าซับหมึกเต็ม ", "category": "เครื่องพิมพ์และอุปกรณ์ต่อพ่วง (Peripherals)", "depot": "DC006 - สาขานครสวรรค์", "department": "IT", "requester": "เช็คเกอร์นครสวรรค์", "datetime": "2026-02-05T10:14:00", "status": "เสร็จสิ้น", "priority": "ปกติ (Medium)", "assignedTo": "คุณแทน", "resolution": "ซับหมึกเครื่องปริ้นเต็ม แก้ไขโดยให้โปรแกรมเคลียซับหมึก", "rootCause": "", "createdBy": "Depot Nakhonsawan"}, {"caseId": "IT-WSG260017", "issue": "ซับหมึกเต็ม", "category": "เครื่องพิมพ์และอุปกรณ์ต่อพ่วง (Peripherals)", "depot": "DC006 - สาขานครสวรรค์", "department": "Sales", "requester": "เช็คเกอร์", "datetime": "2026-02-05T10:18:00", "status": "เสร็จสิ้น", "priority": "ปกติ (Medium)", "assignedTo": "คุณแทน", "resolution": "ซับหมึกเครื่องปริ้นเต็ม แก้ไขโดยให้โปรแกรมเคลียซับหมึก", "rootCause": "", "createdBy": "Depot Nakhonsawan"}, {"caseId": "IT-WSG260018", "issue": "เข้าใช้งาน pr ในระบบ NS ไม่ได้ ในระบบให้ใส่คำตอบของคำถามความปลอดภัย", "category": "ซอฟต์แวร์และแอป (Software)", "depot": "Head Office (HQ)", "department": "Production", "requester": "Safety", "datetime": "2026-04-05T08:48:00", "status": "เสร็จสิ้น", "priority": "ด่วน (High)", "assignedTo": "คุณแทน", "resolution": "Reset password Netsuite : Roles PR ", "rootCause": "", "createdBy": "safety"}, {"caseId": "IT-WSG260019", "issue": "IT-WSGTH-260500210 แก้เป็นวันที่ 25-04-2026\n\nIT-WSGTH-260500216  แก้เป็นวันที่ 22-04-2026\n\nIT-WSGTH-260500220  แก้เป็นวันที่ 22-04-2026\n\nIT-WSGTH-260500223  แก้เป็นวันที่ 08-04-2026\n\nIT-WSGTH-260500225  แก้เป็นวันที่ 20-04-2026\n\nIT-WSGTH-260500228  แก้เป็นวันที่ 16-04-2026\n\nIT-WSGTH-260500232  แก้เป็นวันที่ 10-04-2026\n\nIT-WSGTH-260500229  แก้เป็นวันที่ 10-04-2026\n\nIT-WSGTH-260500235  แก้เป็นวันที่ 25-04-2026\n\nIT-WSGTH-260500236  แก้เป็นวันที่ 20-04-2026\n\nIT-WSGTH-260500237  แก้เป็นวันที่ 30-04-2026\n\nIT-WSGTH-260500239  แก้เป็นวันที่ 22-04-2026\n\nIT-WSGTH-260500242  แก้เป็นวันที่ 16-04-2026\n\nIT-WSGTH-260500246  แก้เป็นวันที่ 07-04-2026\n\nIT-WSGTH-260500249  แก้เป็นวันที่ 06-04-2026\n", "category": "อื่นๆ (Others)", "depot": "Head Office (HQ)", "department": "Accounting", "requester": "Patcharin Ocha", "datetime": "2026-04-05T14:12:00", "status": "เสร็จสิ้น", "priority": "ปกติ (Medium)", "assignedTo": "คุณมุก", "resolution": "แก้ไขวันที่เอกสาร", "rootCause": "", "createdBy": "AC COST"}, {"caseId": "IT-WSG260020", "issue": "HR เชื่อมต่อเครื่องสแกนนิ้วของสาขาสุราษฏร์ธานีไม่ได้", "category": "ระบบเครือข่าย (Network/Internet)", "depot": "DC013 - สาขาสุราษฎร์ธานี", "department": "Sales", "requester": "การเงินสุราษฏร์", "datetime": "2026-04-05T15:09:00", "status": "เสร็จสิ้น", "priority": "ปกติ (Medium)", "assignedTo": "คุณแทน", "resolution": "ลงโปรแกรม DUC เพื่อให้อัพเดท IP กับ NoIP", "rootCause": "", "createdBy": "Depot Surat"}, {"caseId": "IT-WSG260021", "issue": "เนื่องจาก ได้รับมอบหมายให้ช่วยสอนงานเสมียน , การเงิน สาขาเชียงใหม่ จึงจะทำการตรวจเช็คงานย้อนหลังว่ามีบิลตกค้างไหมค่ะ", "category": "อื่นๆ (Others)", "depot": "DC003 - สาขานครราชสีมา", "department": "IT", "requester": "น.ส. เพ็ญนภา แก้วนะรา", "datetime": "2026-04-05T15:14:00", "status": "เสร็จสิ้น", "priority": "ปกติ (Medium)", "assignedTo": "คุณเทพ", "resolution": "เรียกข้อมูลส่วนที่ user จากระบบส่งให้ใช้งาน", "rootCause": "-", "createdBy": "Depot Korat"}, {"caseId": "IT-WSG260022", "issue": "ขอรหัสเข้าใช้งานเครื่อง POS พนักงานใหม่ 2 คน และยกเลิก 1 คน เบื้องต้นส่งเข้าเมลล์แล้วค่ะ", "category": "อื่นๆ (Others)", "depot": "DC004 - สาขาร้อยเอ็ด", "department": "Sales", "requester": "จันจิรา ตะฏิยะสุนทร", "datetime": "2026-05-05T15:36:00", "status": "เสร็จสิ้น", "priority": "ปกติ (Medium)", "assignedTo": "คุณมุก", "resolution": "", "rootCause": "", "createdBy": "Depot Roiet"}, {"caseId": "IT-WSG260023", "issue": "ระบบนำ GPS  ของสาย F-01 ไม่ขึ้นในวันที่ 5/5/69 ", "category": "อื่นๆ (Others)", "depot": "DC004 - สาขาร้อยเอ็ด", "department": "Sales", "requester": "จันจิรา ", "datetime": "2026-06-05T10:26:00", "status": "เสร็จสิ้น", "priority": "ปกติ (Medium)", "assignedTo": "คุณมุก", "resolution": "ปัญหานี้เกิดจากตำแหน่งที่ขายไม่พบตำแหน่ง GPS ซึ่งสามารถเกิดขึ้นได้ แต่เพื่อไม่ให้กระทบการแสดงผล รายงานหน้าเวป ตอนนี้ปรับ ให้ให้คำนวนบิลที่ไม่มี GPS เรียบร้อยครับ", "rootCause": "พิกัดตามรหัสลูกค้าปกติ\nพิกัดไม่ขึ้นบนบิลขาย", "createdBy": "Depot Roiet"}, {"caseId": "IT-WSG260024", "issue": "เนื่องจากเครื่องผู้จัดการ ไม่สามารถดูข้อมูลงานใน One Dive  สาขาร้อยเอ็ดได้ รบกวนคุณมุก Teamview ให้ด้วยนะคะ ขอบคุณค่ะ", "category": "ซอฟต์แวร์และแอป (Software)", "depot": "DC004 - สาขาร้อยเอ็ด", "department": "Sales", "requester": "จันจิรา", "datetime": "2026-06-05T11:39:00", "status": "เสร็จสิ้น", "priority": "ปกติ (Medium)", "assignedTo": "คุณมุก", "resolution": "เชื่อมแอคเค้าท์onedriveในเครื่องผู้จัดการ", "rootCause": "", "createdBy": "Depot Roiet"}, {"caseId": "IT-WSG260025", "issue": "ฐานข้อมูลในระบบหายไม่สามารถเชื่อต่อข้อมูลจากเครื่องสแกนนิ้วได้", "category": "ซอฟต์แวร์และแอป (Software)", "depot": "Head Office (HQ)", "department": "HR", "requester": "นางฐรินดา ดรดีเลิศ", "datetime": "2026-06-05T11:42:00", "status": "เสร็จสิ้น", "priority": "ปกติ (Medium)", "assignedTo": "คุณแทน", "resolution": "Restore ฐานข้อมูลเก่ากลับไป เนื่องจากฐานข้อมูลถูกลบ ", "rootCause": "", "createdBy": "HR"}, {"caseId": "IT-WSG260026", "issue": "ปริ้นสี(ป้ายสัญลักษณ์ความปลอดภัย) เครื่อง Brother DCP-T910DW ไม่ได้", "category": "เครื่องพิมพ์และอุปกรณ์ต่อพ่วง (Peripherals)", "depot": "Head Office (HQ)", "department": "Safety", "requester": "safety", "datetime": "2026-06-05T16:53:00", "status": "เสร็จสิ้น", "priority": "ปกติ (Medium)", "assignedTo": "คุณแทน", "resolution": "ลบไดร์เวอร์เก่าออก และแชร์ไดร์เวอร์จากเครื่องแม่ใหม่", "rootCause": "", "createdBy": "safety"}, {"caseId": "IT-WSG260027", "issue": "แก้ไข Adjustment\nWO-WSGTH-260500248>>WOC-WSGTH-260500422>>IA-WSGTH-260500547>>4100CH02 -200 เป็น -180\n", "category": "ซอฟต์แวร์และแอป (Software)", "depot": "Head Office (HQ)", "department": "Production", "requester": "แอนนา", "datetime": "2026-07-05T08:28:00", "status": "เสร็จสิ้น", "priority": "ด่วน (High)", "assignedTo": "คุณเทพ", "resolution": "แก้ไข จำนวนใน IA ตาม user แจ้ง", "rootCause": "User  คีย์ข้อมูลผิดพลาด", "createdBy": "Anna"}, {"caseId": "IT-WSG260028", "issue": "WO-WSGTH-260402046>>WOC-WSGTH-260403349>>IA-WSGTH-260404627>>2100OT06 -1.1944 แก้เป็น -0.1944", "category": "แก้ไขข้อมูลเอกสาร", "depot": "Head Office (HQ)", "department": "Production", "requester": "แอนนา", "datetime": "2026-07-05T08:34:00", "status": "เสร็จสิ้น", "priority": "ด่วน (High)", "assignedTo": "คุณเทพ", "resolution": "แก้ปัญหาปรับรายการตาม user แจ้ง", "rootCause": "ปัญหาความผิดพลาดของ user ใส่ข้อมูลผิด", "createdBy": "Anna"}, {"caseId": "IT-WSG260029", "issue": "ขอแก้ไข Adjustment\nWO-WSGTH-260401581>>WOC-WSGTH-260402649>>IA-WSGTH-260403651>>2100TB91 แก้จาก -381 เป็น -281 \n", "category": "แก้ไขข้อมูลเอกสาร", "depot": "Head Office (HQ)", "department": "Production", "requester": "แอนนา", "datetime": "2026-07-05T08:35:00", "status": "เสร็จสิ้น", "priority": "ด่วน (High)", "assignedTo": "คุณเทพ", "resolution": "แก้ปัญหาปรับรายการตาม user แจ้ง", "rootCause": "ปัญหาความผิดพลาดของ user ใส่ข้อมูลผิด", "createdBy": "Anna"}, {"caseId": "IT-WSG260030", "issue": "แก้ไข Adjustment\nWO-WSGTH-260402187>>WOC-WSGTH-260403557>>IA-WSGTH-260404951>>4100SC02 -69700 เป็น -69540\nWO-WSGTH-260402229>>WOC-WSGTH-260403683>>IA-WSGTH-260405112>>4100SC02 -35780 เป็น -35940\n", "category": "แก้ไขข้อมูลเอกสาร", "depot": "Head Office (HQ)", "department": "Production", "requester": "แอนนา", "datetime": "2026-07-05T08:37:00", "status": "เสร็จสิ้น", "priority": "ด่วน (High)", "assignedTo": "คุณเทพ", "resolution": "แก้ปัญหาปรับรายการตาม user แจ้ง", "rootCause": "ปัญหาความผิดพลาดของ user ใส่ข้อมูลผิด", "createdBy": "Anna"}, {"caseId": "IT-WSG260031", "issue": "เครื่องสแกนนิ้วค้าง ", "category": "อื่นๆ (Others)", "depot": "Head Office (HQ)", "department": "HR", "requester": "ชุดาพร ", "datetime": "2026-07-05T08:39:00", "status": "เสร็จสิ้น", "priority": "ปกติ (Medium)", "assignedTo": "คุณแทน", "resolution": "เปลี่ยนเครื่องใหม่และใส่เครื่องสำรองไฟให้กับเครื่องสแกนนิ้ว", "rootCause": "ไฟตก ทำให้ตัวเครื่องมีปัญหา", "createdBy": "HR"}, {"caseId": "IT-WSG260032", "issue": "ขอ Email : พนักงานใหม่ \n\nseniorcosting@mingoicecream.com\n\n\nและแอดเข้ากลุ่ม Email : costingwsg@mingoicecream.com", "category": "ระบบบัญชีผู้ใช้ (Account/Access)", "depot": "Head Office (HQ)", "department": "Accounting", "requester": "พรกนก  ธรรมประโคน", "datetime": "2026-07-05T10:23:00", "status": "เสร็จสิ้น", "priority": "ปกติ (Medium)", "assignedTo": "คุณแทน", "resolution": "สร้าง E-mail ให้พนักงานใหม่แล้ว", "rootCause": "", "createdBy": "costingsectionhead"}, {"caseId": "IT-WSG260033", "issue": "เปิดเข้าใช้งาน Onedirve  // เครื่องสแกนลายนิ้วมือ Post เป็นไฟล์ Excel ", "category": "ซอฟต์แวร์และแอป (Software)", "depot": "DC013 - สาขาสุราษฎร์ธานี", "department": "Sales", "requester": "การเงินสุราษฎร์ธานี", "datetime": "2026-07-05T14:33:00", "status": "เสร็จสิ้น", "priority": "ปกติ (Medium)", "assignedTo": "คุณแทน", "resolution": "ลบและติดตั้ง MS365 ใหม่", "rootCause": "", "createdBy": "Depot Surat"}, {"caseId": "IT-WSG260034", "issue": "IT-WSGTH-260501625  แก้เป็นวันที่ 02-04-2026\nIT-WSGTH-260501627  แก้เป็นวันที่ 04-04-2026\nIT-WSGTH-260501630  แก้เป็นวันที่ 04-04-2026\nIT-WSGTH-260501631  แก้เป็นวันที่ 04-04-2026\nIT-WSGTH-260501633  แก้เป็นวันที่ 04-04-2026\nIT-WSGTH-260501635  แก้เป็นวันที่ 04-04-2026\nIT-WSGTH-260501636  แก้เป็นวันที่ 07-04-2026\nIT-WSGTH-260501644  แก้เป็นวันที่ 07-04-2026\nIT-WSGTH-260501657  แก้เป็นวันที่ 09-04-2026\nIT-WSGTH-260501661  แก้เป็นวันที่ 11-04-2026\nIT-WSGTH-260501663  แก้เป็นวันที่ 11-04-2026\nIT-WSGTH-260501664  แก้เป็นวันที่ 18-04-2026\nIT-WSGTH-260501665  แก้เป็นวันที่ 25-04-2026\nIT-WSGTH-260501667  แก้เป็นวันที่ 25-04-2026\nIT-WSGTH-260501668  แก้เป็นวันที่ 25-04-2026\nIT-WSGTH-260501669  แก้เป็นวันที่ 25-04-2026\nIT-WSGTH-260501670  แก้เป็นวันที่ 28-04-2026\nIT-WSGTH-260501673  แก้เป็นวันที่ 28-04-2026\nIT-WSGTH-260501744  แก้เป็นวันที่ 07-04-2026\nIT-WSGTH-260501747  แก้เป็นวันที่ 25-04-2026\n", "category": "อื่นๆ (Others)", "depot": "DC016 - สาขาเชียงใหม่", "department": "Accounting", "requester": "Patcharin  Ocha", "datetime": "2026-07-05T18:58:00", "status": "เสร็จสิ้น", "priority": "ปกติ (Medium)", "assignedTo": "คุณมุก", "resolution": "แก้ไขวันที่เอกสารใน NS ", "rootCause": "", "createdBy": "AC COST"}, {"caseId": "IT-WSG260035", "issue": "WO-WSGTH-260402222>>WOC-WSGTH-260403733>>IA-WSGTH-260406208>> 2100OT16 -2.0468 เป็น-1.4468", "category": "แก้ไขข้อมูลเอกสาร", "depot": "Head Office (HQ)", "department": "Production", "requester": "แอนนา", "datetime": "2026-08-05T08:40:00", "status": "เสร็จสิ้น", "priority": "ด่วน (High)", "assignedTo": "คุณเทพ", "resolution": "แก้ข้อมูลตามที่ user แจ้ง", "rootCause": "คีย์ข้อมูลผิดพลาดจาก user", "createdBy": "Anna"}, {"caseId": "IT-WSG260036", "issue": "ตั้งค่าโปรแกรม แสกนลายนื้วมือใหม่", "category": "ซอฟต์แวร์และแอป (Software)", "depot": "DC013 - สาขาสุราษฎร์ธานี", "department": "Sales", "requester": "การเงินสุราษฎร์", "datetime": "2026-08-05T09:32:00", "status": "เสร็จสิ้น", "priority": "ปกติ (Medium)", "assignedTo": "คุณแทน", "resolution": "ตั้งกะพนักงานในโปรแกรมใหม่", "rootCause": "", "createdBy": "Depot Surat"}, {"caseId": "IT-WSG260037", "issue": "เลขผู้เสียภาษีไม่ขึ้นในใบ CN  5 รายการค่ะ", "category": "แก้ไขข้อมูลเอกสาร", "depot": "DC006 - สาขานครสวรรค์", "department": "Sales", "requester": "เช็คเกอร์", "datetime": "2026-08-05T10:54:00", "status": "เสร็จสิ้น", "priority": "ปกติ (Medium)", "assignedTo": "คุณมุก", "resolution": "เข้าแก้ไขเอกสาร จัดหน้า ที่อยู่และชื่อ ใหม่", "rootCause": "", "createdBy": "Depot Nakhonsawan"}, {"caseId": "IT-WSG260038", "issue": "ฐานข้อมูล ระบบ ZKT ไม่อัพเดต เป็นปัจจุบัน", "category": "ซอฟต์แวร์และแอป (Software)", "depot": "Head Office (HQ)", "department": "HR", "requester": "พวงผกา ภิญโญทรัพย์", "datetime": "2026-08-05T11:46:00", "status": "เสร็จสิ้น", "priority": "ปกติ (Medium)", "assignedTo": "คุณแทน", "resolution": "เชื่อมต่อฐานข้อมูลใหม่", "rootCause": "", "createdBy": "HR"}, {"caseId": "IT-WSG260039", "issue": "สแกนนิ้วแอดมินเพิ่มรหัสพนักงานใหม่เข้าไม่ได้", "category": "ซอฟต์แวร์และแอป (Software)", "depot": "DC016 - สาขาเชียงใหม่", "department": "Accounting", "requester": "สุทธิดา คอยเสอ ", "datetime": "2026-08-05T15:35:00", "status": "เสร็จสิ้น", "priority": "ทั่วไป (Low)", "assignedTo": "คุณแทน", "resolution": "เพิ่มข้อมูลลายนิ้วมือของ admin จากโปรแกรมเข้าไปที่เครื่องสแกนนิ้วใหม่", "rootCause": "", "createdBy": "Depot Chiangmai"}, {"caseId": "IT-WSG260040", "issue": "WO-WSGTH-260500490>>WOC-WSGTH-260500807>>IA-WSGTH-260501053>>6100CO01 40 เป็น 162", "category": "แก้ไขข้อมูลเอกสาร", "depot": "Head Office (HQ)", "department": "Production", "requester": "แอนนา", "datetime": "2026-08-05T16:08:00", "status": "เสร็จสิ้น", "priority": "ด่วน (High)", "assignedTo": "คุณเทพ", "resolution": "แก้ไขข้อมูลตาม user แจ้ง", "rootCause": "ผิดพลาดจากการคีย์ข้อมูลของ User", "createdBy": "Anna"}, {"caseId": "IT-WSG260041", "issue": "1. ไฟล์รายงานยอดขาย ไม่ลิ้งค์ยอด สาย 10 มาให้ และแถววันที่ 17 โชว์ยอดวันที่ 5 \n2. ไฟล์เมลล์ยอด+ซีฟอร์ม ไม่ลิ้งค์ยอด สาย 8 9 10 และแถววันที่ 17 โชว์ยอดวันที่ 5 \n3. ไฟล์ Sales Comistion ชิตสรุปค่าคอมเป็นชื่อเซลล์เก่า และชิตสาย 1 2 3  มียอดวันที่ 17", "category": "ไฟล์คำนวณคอมมิชชั่นฝ่ายขาย", "depot": "DC016 - สาขาเชียงใหม่", "department": "Accounting", "requester": "สุทธิดา คอยเสอ", "datetime": "2026-08-05T17:14:00", "status": "เสร็จสิ้น", "priority": "ทั่วไป (Low)", "assignedTo": "คุณมุก", "resolution": "", "rootCause": "", "createdBy": "Depot Chiangmai"}, {"caseId": "IT-WSG260042", "issue": "เนื่องจาก แบตเตอรี่ เครื่องปริ้นขาย ไอศกรีมสาย 1 ชำรุด แต้องใช้เทพใสติดไว้เพื่อไม่ให้แบตเตอรี่หลุด จึงแจ้งฝ่ายไอทีตรวจสอบและ ขออนุมัติเบิกแบตเตอรี่อันใหม่ ", "category": "ระบบโปรแกรมขาย POS ,เวปแอพ", "depot": "DC004 - สาขาร้อยเอ็ด", "department": "Sales", "requester": "จันจิรา", "datetime": "2026-09-05T10:46:00", "status": "เสร็จสิ้น", "priority": "ด่วน (High)", "assignedTo": "คุณแทน", "resolution": "ส่งเครื่องใหม่เปลี่ยน  จากการใช้งานมากกว่า3 ปี", "rootCause": "เครื่องเก่าเสื่อมสภาพจากการใช้งาน", "createdBy": "Depot Roiet"}, {"caseId": "IT-WSG260043", "issue": "เซลล์แจ้งว่าบิลเครดิตรร.ราชประชานุเคราะห์ได้ทำรับชำระไปหมดแล้ว แต่ยังคาอยู่ในเครื่องขาย3 บิล จึงทำให้เซลล์ไม่สามารถทำบิลขายได้ในวันนี้", "category": "ระบบโปรแกรมขาย POS ,เวปแอพ", "depot": "DC006 - สาขานครสวรรค์", "department": "Sales", "requester": "การเงินสาขานครสวรรค์", "datetime": "2026-09-05T13:29:00", "status": "เสร็จสิ้น", "priority": "ไม่ระบุ", "assignedTo": "คุณมุก", "resolution": "", "rootCause": "", "createdBy": "Depot Nakhonsawan"}, {"caseId": "IT-WSG260044", "issue": "เรื่อง การลงข้อมูลใน WO -  WOC ที่ผิดปกติ \nตรวจสอบการใช้ Raw Material ในเดือนเมษายน 2026  ", "category": "ไม่ระบุ", "depot": "Head Office (HQ)", "department": "Production", "requester": "นางสาวกรรณิกา นาโควงค์", "datetime": "2026-09-05T16:58:00", "status": "ยกเลิก", "priority": "ไม่ระบุ", "assignedTo": "ไม่ระบุ", "resolution": "", "rootCause": "", "createdBy": "Supervisor Meadowgreen"}, {"caseId": "IT-WSG260045", "issue": "1.ดึงเวลาพนักงาน รหัส 26040172 นายศักดิ์ดา กันหา\n2.ลบรหัสพนักงาน รหัส 26040182", "category": "ซอฟต์แวร์และแอป (Software)", "depot": "DC011 - สาขาพัทยา", "department": "Sales", "requester": "กมลรัตน์ (การเงิน)", "datetime": "2026-09-05T18:29:00", "status": "เสร็จสิ้น", "priority": "ปกติ (Medium)", "assignedTo": "คุณแทน", "resolution": "ตั้งค่ากะทำงานของพนักงานใหม่ และลบรหัสพนักงานจามที่แจ้งออกจากโปรแกรมแล้ว", "rootCause": "", "createdBy": "Depot Pattaya"}, {"caseId": "IT-WSG260046", "issue": "ระบบNS ให้เปลี่ยนรหัสผ่านใหม่ค่ะ", "category": "อื่นๆ (Others)", "depot": "DC004 - สาขาร้อยเอ็ด", "department": "Sales", "requester": "จันจิรา", "datetime": "2026-11-05T09:00:00", "status": "เสร็จสิ้น", "priority": "ทั่วไป (Low)", "assignedTo": "คุณมุก", "resolution": "", "rootCause": "", "createdBy": "Depot Roiet"}, {"caseId": "IT-WSG260047", "issue": "แก้ไขไฟล์ค่าคอมฯ", "category": "ไฟล์คำนวณคอมมิชชั่นฝ่ายขาย", "depot": "DC020 - สาขาเชียงราย", "department": "Sales", "requester": "นุ้ย", "datetime": "2026-11-05T11:44:00", "status": "เสร็จสิ้น", "priority": "ปกติ (Medium)", "assignedTo": "คุณมุก", "resolution": "", "rootCause": "", "createdBy": "chiangrai"}, {"caseId": "IT-WSG260048", "issue": "ชื่อ :   นิติยา   นามสกุล  ตั้งสกุลเสริมสุข\n\nName :  Nitiya Tangsakunsermsuk\n\nEmail: seniorcosting@mingoicecream.com\n\nrole  ที่ใช้   1.Accounting  manager\n                   2.Accounting  Costing\n                   3.Fixed Assetss", "category": "ซอฟต์แวร์และแอป (Software)", "depot": "Head Office (HQ)", "department": "Accounting", "requester": "พรกนก ธรรมประโคน", "datetime": "2026-11-05T13:06:00", "status": "เสร็จสิ้น", "priority": "ด่วน (High)", "assignedTo": "คุณเทพ", "resolution": "ให้สิทธิ๋ใช้งานระบบตามที่แจ้ง", "rootCause": "พนักงานเข้าใหม่ = ให้สิทธิ์ใช้งาน", "createdBy": "costingsectionhead"}, {"caseId": "IT-WSG260049", "issue": "WO-WSGTH-260500111>>MFG Completion Process Log >>Minutes Worked (exclude Break Time)>>จาก\n27 เป็น 180", "category": "แก้ไขข้อมูลเอกสาร", "depot": "Head Office (HQ)", "department": "Production", "requester": "แอนนา", "datetime": "2026-11-05T15:53:00", "status": "เสร็จสิ้น", "priority": "ด่วน (High)", "assignedTo": "คุณเทพ", "resolution": "แก้ไขข้อมูลตาม  User แจ้ง", "rootCause": "user คีย์ข้อมูลไม่ครบถ้วน", "createdBy": "Anna"}, {"caseId": "IT-WSG260050", "issue": "เปลี่ยนเมาท์ 1 ตัว เนื่องจากตัวเก่าเสีย", "category": "อุปกรณ์คอมพิวเตอร์ (Hardware)", "depot": "Head Office (HQ)", "department": "Production", "requester": "นางสาวกรรณิกา นาโคงค์", "datetime": "2026-11-05T15:58:00", "status": "เสร็จสิ้น", "priority": "ปกติ (Medium)", "assignedTo": "คุณแทน", "resolution": "มีเม้าสำหรับของ it ให้ใช้แจ้ง user แล้ว", "rootCause": "", "createdBy": "Supervisor Meadowgreen"}, {"caseId": "IT-WSG260051", "issue": "WO-WSGTH-260500601 / WOC-WSGTH-260501082\nแก้ไขLaborTime / MachnineTime จากเดิม 11 นาทีแก้ไขเป็น 6นาทีค่ะ", "category": "แก้ไขข้อมูลเอกสาร", "depot": "Head Office (HQ)", "department": "Production", "requester": "ศศิพิมล", "datetime": "2026-11-05T16:47:00", "status": "เสร็จสิ้น", "priority": "ด่วน (High)", "assignedTo": "ไม่ระบุ", "resolution": "แก้ปัญหาตามที่ user แจ้งแล้วด้วยการแก้ไขเวลาตามที่แจ้ง", "rootCause": "ใส่เวลาผิดจากการคีย์ WOC", "createdBy": "Supervisor Meadowgreen"}, {"caseId": "IT-WSG260052", "issue": "ต้นทางส่งเมลมาแต่ไม่ได้รับค่ะ", "category": "ระบบเครือข่าย (Network/Internet)", "depot": "DC011 - สาขาพัทยา", "department": "Sales", "requester": "เสมียนพัทยา", "datetime": "2026-12-05T16:03:00", "status": "เสร็จสิ้น", "priority": "ปกติ (Medium)", "assignedTo": "คุณแทน", "resolution": "ตั้งค่า เซิฟเวอร์ outlook ใหม่", "rootCause": "", "createdBy": "Depot Pattaya"}, {"caseId": "IT-WSG260053", "issue": "วันที่ 12 สาย3 มีค้างซิ้งค์ค่ะ  รบกวนช่วยแก้ให้หน่อยนะคะ  ปิดยอดไม่ได้   เซลล์ลองซิ้ค์เครื่อง 3 รอบแต่ไม่ได้ค่ะ", "category": "ระบบโปรแกรมขาย POS ,เวปแอพ", "depot": "DC016 - สาขาเชียงใหม่", "department": "Accounting", "requester": "สุทธิดา", "datetime": "2026-12-05T19:41:00", "status": "เสร็จสิ้น", "priority": "ทั่วไป (Low)", "assignedTo": "คุณเทพ", "resolution": "", "rootCause": "", "createdBy": "Depot Chiangmai"}, {"caseId": "IT-WSG260054", "issue": "ในเครื่อง   นิมิต  ตายะ    \nชื่อที่ถูก    นิมิตร ตายะ ", "category": "ระบบบัญชีผู้ใช้ (Account/Access)", "depot": "DC016 - สาขาเชียงใหม่", "department": "Accounting", "requester": "สุทธิดา", "datetime": "2026-12-05T19:53:00", "status": "เสร็จสิ้น", "priority": "ทั่วไป (Low)", "assignedTo": "คุณเทพ", "resolution": "", "rootCause": "", "createdBy": "Depot Chiangmai"}, {"caseId": "IT-WSG260055", "issue": "กรณีลูกค้าเป็นเครคิต ทำขายรายการสินค้าปกติแต่กดจบมาเป็นใบรับชำระซึ่งลูกค้าคนนี้ยังไม่มีบิลเครคิตค้างเลยค่ะ", "category": "อื่นๆ (Others)", "depot": "DC006 - สาขานครสวรรค์", "department": "Sales", "requester": "เช็คเกอร์", "datetime": "2026-05-13T11:23:00", "status": "เสร็จสิ้น", "priority": "ทั่วไป (Low)", "assignedTo": "คุณมุก", "resolution": "ทำการลบ payment ออก \n- สร้างทริปใหม่ ซิงค์เครื่องใหม่", "rootCause": "กดชำระบิลจากเครื่องขาย", "createdBy": "Depot Nakhonsawan"}, {"caseId": "IT-WSG260056", "issue": "ยกเลิกบิลเนื่องจากทาง CJ ทำรับสินค้าไม่ได้ เลข PO ในระบบไม่ขึ้น", "category": "แก้ไขข้อมูลเอกสาร", "depot": "DC006 - สาขานครสวรรค์", "department": "Sales", "requester": "เช็คเกอร์", "datetime": "2026-05-13T16:19:00", "status": "เสร็จสิ้น", "priority": "ทั่วไป (Low)", "assignedTo": "คุณมุก", "resolution": "", "rootCause": "", "createdBy": "Depot Nakhonsawan"}, {"caseId": "IT-WSG260057", "issue": "ไฟล์ Sales Comistion ยอดค่าคอมไม่ลิ้งค์หากันค่ะ\n     1. ชิตสรุปค่าคอม \n     2. ชิต Rate Com\n     3. ชิต สรุปยอดทุกสาย\n     4. ชิตยอดขายสาย10 ของ นายนิมิต ตายะ ไม่มีตัวเลขด้านหลัง\n        ", "category": "ไฟล์คำนวณคอมมิชชั่นฝ่ายขาย", "depot": "DC016 - สาขาเชียงใหม่", "department": "Accounting", "requester": "สุทธิดา", "datetime": "2026-05-13T17:58:00", "status": "เสร็จสิ้น", "priority": "ปกติ (Medium)", "assignedTo": "คุณมุก", "resolution": "", "rootCause": "", "createdBy": "Depot Chiangmai"}, {"caseId": "IT-WSG260058", "issue": "เปิดคอมไม่ติด ", "category": "ซอฟต์แวร์และแอป (Software)", "depot": "Head Office (HQ)", "department": "Accounting", "requester": "อุมาภรณ์   เพิ่มคำ", "datetime": "2026-05-14T08:37:00", "status": "เสร็จสิ้น", "priority": "ปกติ (Medium)", "assignedTo": "คุณแทน", "resolution": "windows อัพเดททำให้เวลาเปิดเครื่องหน้าจอยังไม่ติด", "rootCause": "", "createdBy": "AC AR"}, {"caseId": "IT-WSG260059", "issue": "ของแจ้งยกเลิกบิลเนื่องจากนำโคนของเรือนจำไปขายร้านธรรมดา  เลขที่บิล I-26NSF05050000115", "category": "ไม่ระบุ", "depot": "DC006 - สาขานครสวรรค์", "department": "Sales", "requester": "เช็คเกอร์", "datetime": "2026-05-14T10:36:00", "status": "เสร็จสิ้น", "priority": "ทั่วไป (Low)", "assignedTo": "คุณมุก", "resolution": "", "rootCause": "", "createdBy": "Depot Nakhonsawan"}, {"caseId": "IT-WSG260060", "issue": "บิลรับชำระวันที่ 13 พ.ค ไม่เข้าหน้าใบสำคัญรับค่ะ สายต่างจังหวัด", "category": "ระบบโปรแกรมขาย POS ,เวปแอพ", "depot": "DC006 - สาขานครสวรรค์", "department": "Sales", "requester": "การเงินสาขานครสวรรค์", "datetime": "2026-05-14T17:35:00", "status": "เสร็จสิ้น", "priority": "ปกติ (Medium)", "assignedTo": "คุณมุก", "resolution": "", "rootCause": "", "createdBy": "Depot Nakhonsawan"}, {"caseId": "IT-WSG260061", "issue": "ยกเลิกบิลเนื่องลืมกดแถมสินค้าค่ะ เลขที่บิล C-26NSF05050000020", "category": "ระบบโปรแกรมขาย POS ,เวปแอพ", "depot": "DC006 - สาขานครสวรรค์", "department": "Sales", "requester": "เช็คเกอร์", "datetime": "2026-05-15T09:27:00", "status": "เสร็จสิ้น", "priority": "ทั่วไป (Low)", "assignedTo": "คุณมุก", "resolution": "", "rootCause": "", "createdBy": "Depot Nakhonsawan"}, {"caseId": "IT-WSG260062", "issue": "เบอร์โทรศัพท์ 037481009 ต่อเบอร์ภายใน กด 1 2 3 4 5 ไม่ได้", "category": "ซอฟต์แวร์และแอป (Software)", "depot": "Head Office (HQ)", "department": "IT", "requester": "IT Support", "datetime": "2026-05-15T14:27:00", "status": "เสร็จสิ้น", "priority": "ปกติ (Medium)", "assignedTo": "คุณแทน", "resolution": "อัพเดท แอฟ Linkus และ login user password ใหม่ในโทรศัพท์ HR IT ACC", "rootCause": "", "createdBy": "IT Support"}, {"caseId": "IT-WSG260063", "issue": "เนื่องจากเครื่องปริ้นบิล เบเกอรี่ สาย 5  ชำรุด จึงแจ้งฝ่ายไอที ตรวจสอบ และเบิกเครื่องใหม่", "category": "เครื่องพิมพ์และอุปกรณ์ต่อพ่วง (Peripherals)", "depot": "DC004 - สาขาร้อยเอ็ด", "department": "Sales", "requester": "จันจิรา", "datetime": "2026-05-15T16:07:00", "status": "เสร็จสิ้น", "priority": "ปกติ (Medium)", "assignedTo": "คุณแทน", "resolution": "ส่งเครื่องปริ้นใหม่ทดแทนจำนวน 2 เครื่อง ", "rootCause": "", "createdBy": "Depot Roiet"}, {"caseId": "IT-WSG260064", "issue": "สแกนนิ้วแอดมินเพิ่มรหัสพนักงานใหม่เข้าไม่ได้", "category": "ซอฟต์แวร์และแอป (Software)", "depot": "DC016 - สาขาเชียงใหม่", "department": "Accounting", "requester": "สุทธิดา", "datetime": "2026-05-16T13:20:00", "status": "เสร็จสิ้น", "priority": "ปกติ (Medium)", "assignedTo": "คุณแทน", "resolution": "เปลี่ยนอินเตอร์เน็ตไปใช้ของ 3bb , ติดตั้งโปรแกรมสแกนนิ้วใหม่ เปลี่ยนฐานข้อมูสแกนนิ้วใหม่", "rootCause": "แก้ไขด้วยการให้ใช้เน็ตวง lan เดียวกัน\n", "createdBy": "Depot Chiangmai"}, {"caseId": "IT-WSG260065", "issue": "เปิดใช้งานเมลไม่ได้", "category": "ซอฟต์แวร์และแอป (Software)", "depot": "Head Office (HQ)", "department": "Accounting", "requester": "นิติยา", "datetime": "2026-05-18T09:53:00", "status": "เสร็จสิ้น", "priority": "ปกติ (Medium)", "assignedTo": "คุณแทน", "resolution": "ย้ายไฟล์เมลล์ออกจากวันไดร์ฟ เนื่องจากวันไดร์ฟไม่ซิงค์ไฟล์ข้อมูลเมลล์", "rootCause": "", "createdBy": "AC COST"}, {"caseId": "IT-WSG260066", "issue": "WO-WSGTH-260501211>>WOC-WSGTH-260502098>>IA-WSGTH-260502906>>เพิ่ม 1 รายการ  4102VA07 -490 Lot 260516-001", "category": "แก้ไขข้อมูลเอกสาร", "depot": "Head Office (HQ)", "department": "Production", "requester": "แอนนา", "datetime": "2026-05-19T08:47:00", "status": "เสร็จสิ้น", "priority": "ด่วน (High)", "assignedTo": "คุณเทพ", "resolution": "แก้ไขเอกสารตาม user แจ้ง ", "rootCause": "ลืมใส่ข้อมูลของ user", "createdBy": "Anna"}, {"caseId": "IT-WSG260067", "issue": "มีพนักงานเข้างานใหม่ 1 คน วันที่ 4.05.2026 ให้เอารหัส+ชื่อ พนักงานเข้าเครื่องสแกนนิ้วที่สาขา", "category": "ซอฟต์แวร์และแอป (Software)", "depot": "DC001 - สาขาขอนแก่น", "department": "Sales", "requester": "ดา-การเงินขอนแก่น", "datetime": "2026-05-19T14:46:00", "status": "เสร็จสิ้น", "priority": "ปกติ (Medium)", "assignedTo": "คุณแทน", "resolution": "เพิ่มรายชื่อ + ตั้งกะการทำงาน พนักงานใหม่เข้าโปรแกรมสแกนนิ้ว", "rootCause": "", "createdBy": "Depot Khonkaen"}, {"caseId": "IT-WSG260068", "issue": "เชื่อมเครื่องปริ้นซ์ จากเครื่องแม่ แชร์มาเครื่องลูก  เนื่องจากไฟดับ WiFi หลุด", "category": "ระบบเครือข่าย (Network/Internet)", "depot": "DC001 - สาขาขอนแก่น", "department": "Sales", "requester": "ดา-การเงินสาขาขอนแก่น", "datetime": "2026-05-20T16:27:00", "status": "เสร็จสิ้น", "priority": "ปกติ (Medium)", "assignedTo": "คุณแทน", "resolution": "เปลี่ยนใช้ wifi ให้เป็นชื่อเดียวกัน", "rootCause": "", "createdBy": "Depot Khonkaen"}, {"caseId": "IT-WSG260069", "issue": "ปริ้นส์ใบเสร็จออกมาแล้วรายการออกมาซ้ำ", "category": "ไม่ระบุ", "depot": "DC017 - สาขาสมุทรปราการ", "department": "Sales", "requester": "พิชชานันท์ ", "datetime": "2026-05-21T15:20:00", "status": "รอดำเนินการ", "priority": "ไม่ระบุ", "assignedTo": "ไม่ระบุ", "resolution": "", "rootCause": "", "createdBy": "Depot Samutprakan1"}, {"caseId": "IT-WSG260070", "issue": "เพื่อควบคุมสิทธิ์การเข้าถึงเฉพาะผู้เกี่ยวข้อง", "category": "ซอฟต์แวร์และแอป (Software)", "depot": "Head Office (HQ)", "department": "HR", "requester": "ชุดาพร ", "datetime": "2026-05-22T17:44:00", "status": "เสร็จสิ้น", "priority": "ปกติ (Medium)", "assignedTo": "คุณแทน", "resolution": "เปลี่ยน user 365 ใหม่เป็น payroll_wsgth@mingoglobal.onmicrosoft.com เรียบร้อย", "rootCause": "", "createdBy": "HR"}, {"caseId": "IT-WSG260071", "issue": "WO-WSGTH-260501554>>WOC-WSGTH-260502712>>IA-WSGTH-260503755>>1100SW02 -267 แก้เป็น -287", "category": "แก้ไขข้อมูลเอกสาร", "depot": "Head Office (HQ)", "department": "Production", "requester": "แอนนา", "datetime": "2026-05-25T07:50:00", "status": "เสร็จสิ้น", "priority": "ด่วน (High)", "assignedTo": "คุณเทพ", "resolution": "แก้ไขจำนวนตาม User แจ้งใน NetSuite ", "rootCause": "user คีย์ข้อมูลไม่ครบ ถ้วนถูกต้อง", "createdBy": "Anna"}, {"caseId": "IT-WSG260072", "issue": "ยกเลิก \tWOC-WSGTH-260502711 กับ IA-WSGTH-260503755  เนื่องจากระบบหมุนทำให้ทำเบิ้ล", "category": "แก้ไขข้อมูลเอกสาร", "depot": "Head Office (HQ)", "department": "Production", "requester": "แอนนา", "datetime": "2026-05-25T07:54:00", "status": "เสร็จสิ้น", "priority": "ด่วน (High)", "assignedTo": "คุณเทพ", "resolution": "แก้ด้วยการยกเลิกเอกสารที่เบิ้ล", "rootCause": "จากระบบช้าช่วงเวลาทำงานทำให้ระบบบันทึกซ้ำ", "createdBy": "Anna"}, {"caseId": "IT-WSG260073", "issue": "กรณีลูกค้าเป็นเครคิต ทำขายรายการสินค้าปกติแต่กดจบมาเป็นใบรับชำระซึ่งลูกค้าคนนี้ยังไม่มีบิลเครคิตค้างเลยค่ะ", "category": "ระบบโปรแกรมขาย POS ,เวปแอพ", "depot": "DC006 - สาขานครสวรรค์", "department": "Sales", "requester": "เช็คเกอร์", "datetime": "2026-05-25T11:10:00", "status": "เสร็จสิ้น", "priority": "ทั่วไป (Low)", "assignedTo": "คุณมุก", "resolution": "", "rootCause": "", "createdBy": "Depot Nakhonsawan"}, {"caseId": "IT-WSG260074", "issue": "WO-WSGTH-260500639>>WOC-WSGTH-260501134>>MFG Machine Time กับ Machine Completion Time จาก 660 เป็น 625", "category": "แก้ไขข้อมูลเอกสาร", "depot": "Head Office (HQ)", "department": "Production", "requester": "แอนนา", "datetime": "2026-05-25T13:25:00", "status": "เสร็จสิ้น", "priority": "ด่วน (High)", "assignedTo": "คุณเทพ", "resolution": "แก้ปัญหาปรับรายการตาม user แจ้ง", "rootCause": "ปัญหาความผิดพลาดของ user ใส่ข้อมูลผิด", "createdBy": "Anna"}, {"caseId": "IT-WSG260075", "issue": "หมึกเครื่องปริ้นแตก ไม่สามารถสั่งปริ้นเอกสารได้", "category": "เครื่องพิมพ์และอุปกรณ์ต่อพ่วง (Peripherals)", "depot": "Head Office (HQ)", "department": "Production", "requester": "วาสนา ", "datetime": "2026-05-26T11:15:00", "status": "เสร็จสิ้น", "priority": "ปกติ (Medium)", "assignedTo": "คุณแทน", "resolution": "เปลี่ยนเครื่องปริ้นใหม่เป็นรุ่น Brother DCP-T230 ", "rootCause": "", "createdBy": "STORE"}, {"caseId": "IT-WSG260076", "issue": "ขอซ่อมโทรศัพท์ แผนกโรงครัว  ไม่ติดไม่ได้ยินเสียง", "category": "เครื่องพิมพ์และอุปกรณ์ต่อพ่วง (Peripherals)", "depot": "Head Office (HQ)", "department": "Production", "requester": "แอนนา", "datetime": "2026-05-26T14:52:00", "status": "เสร็จสิ้น", "priority": "ปกติ (Medium)", "assignedTo": "คุณแทน", "resolution": "เปลี่ยนสายโทรศัพท์ใหม่ และเครื่องโทรศัพท์ ใช้งานได้แล้ว", "rootCause": "", "createdBy": "Anna"}, {"caseId": "IT-WSG260077", "issue": "เครื่องปริ้นสายนมเสีย ปริ้นออกมาได้ไม่หมดบิล ต้องเปิดปิดใหม่ตลอดค่ะ", "category": "เครื่องพิมพ์และอุปกรณ์ต่อพ่วง (Peripherals)", "depot": "DC011 - สาขาพัทยา", "department": "IT", "requester": "เสมียนพัทยา", "datetime": "2026-05-26T17:38:00", "status": "เสร็จสิ้น", "priority": "ปกติ (Medium)", "assignedTo": "คุณแทน", "resolution": "ส่งเครื่องปริ้นใหม่ไปทดแทน", "rootCause": "", "createdBy": "Depot Pattaya"}, {"caseId": "IT-WSG260078", "issue": "เวลาฝนตกฟ้าร้อง ไฟกระชาก ไฟตก ไม่สามารถสแกนนิ้วเข้า-ออกได้", "category": "เครื่องพิมพ์และอุปกรณ์ต่อพ่วง (Peripherals)", "depot": "DC017 - สาขาสมุทรปราการ", "department": "Sales", "requester": "ฟารีดา ", "datetime": "2026-05-27T11:18:00", "status": "เสร็จสิ้น", "priority": "ปกติ (Medium)", "assignedTo": "คุณแทน", "resolution": "ส่งเครื่อง ups ใหม่ไปใช้กับเครื่องสแกนนิ้สาขาสมุทรปราการ", "rootCause": "", "createdBy": "Depot Samutprakan2"}, {"caseId": "IT-WSG260079", "issue": "ยกเลิกบิลเนื่องจากทำขายสินค้าผิดรายการ เลขที่บิลC-26NSF0505000028", "category": "ระบบโปรแกรมขาย POS ,เวปแอพ", "depot": "DC006 - สาขานครสวรรค์", "department": "Sales", "requester": "เช็คเกอร์", "datetime": "2026-05-27T12:39:00", "status": "เสร็จสิ้น", "priority": "ทั่วไป (Low)", "assignedTo": "คุณมุก", "resolution": "", "rootCause": "", "createdBy": "Depot Nakhonsawan"}, {"caseId": "IT-WSG260080", "issue": "ดึงเวลาพนักงาน รหัส 25050241 นายวรเชษฐ์ วงศ์สวีสดิ์ ", "category": "ซอฟต์แวร์และแอป (Software)", "depot": "DC011 - สาขาพัทยา", "department": "Sales", "requester": "กมลรัตน์ (การเงิน)", "datetime": "2026-05-27T15:44:00", "status": "เสร็จสิ้น", "priority": "ปกติ (Medium)", "assignedTo": "คุณแทน", "resolution": "ตั้งค่ากะการทำงานของพนักงานใหม่่", "rootCause": "", "createdBy": "Depot Pattaya"}, {"caseId": "IT-WSG260081", "issue": "ยกเลิกเนื่องจากแถมเกินค่ะ เลขที่บิล I-26NSF0205000208", "category": "ระบบโปรแกรมขาย POS ,เวปแอพ", "depot": "DC006 - สาขานครสวรรค์", "department": "Sales", "requester": "เช็คเกอร์", "datetime": "2026-05-27T16:47:00", "status": "เสร็จสิ้น", "priority": "ทั่วไป (Low)", "assignedTo": "คุณมุก", "resolution": "", "rootCause": "", "createdBy": "Depot Nakhonsawan"}, {"caseId": "IT-WSG260082", "issue": "เชื่อมต่อเครื่องสแกนนิ้วไม่ได้ ", "category": "ระบบเครือข่าย (Network/Internet)", "depot": "Head Office (HQ)", "department": "HR", "requester": "ชุดาพร ", "datetime": "2026-05-29T08:52:00", "status": "เสร็จสิ้น", "priority": "ปกติ (Medium)", "assignedTo": "คุณแทน", "resolution": "หัว LAN ชำรุด >> เปลี่ยนหัวใหม่", "rootCause": "", "createdBy": "HR"}, {"caseId": "IT-WSG260083", "issue": "ลำดับ รหัสพนักงาน   26060247\nชื่อ-สกุล    นางสาวพิกุลทอง เรือนคำ   0910759643", "category": "ระบบโปรแกรมขาย POS ,เวปแอพ", "depot": "DC020 - สาขาเชียงราย", "department": "Sales", "requester": "สุดาพร", "datetime": "2026-02-06T08:50:00", "status": "เสร็จสิ้น", "priority": "ด่วน (High)", "assignedTo": "คุณเทพ", "resolution": "เพิ่มชื่อเซลล์ใน ระบบ NetSuite เพื่อใช้งานใน POS", "rootCause": "พนักงานใหม่ ใช้งานเครื่องขาย", "createdBy": "chiangrai"}, {"caseId": "IT-WSG260084", "issue": "เชื่อมต่อเครื่องปริ้น แชร์จากเครื่องแม่ แชร์มาเครื่องลูก  เนื่องจากไฟดับ WiFi หลุด", "category": "เครื่องพิมพ์และอุปกรณ์ต่อพ่วง (Peripherals)", "depot": "DC003 - สาขานครราชสีมา", "department": "Sales", "requester": "น.ส.ศศิวิมล ของโพธิ์", "datetime": "2026-02-06T09:39:00", "status": "เสร็จสิ้น", "priority": "ปกติ (Medium)", "assignedTo": "คุณแทน", "resolution": "แชร์ปริ้นเตอร์ใหม่ให้เครื่องเช็คเกอร์", "rootCause": "", "createdBy": "Depot Korat"}, {"caseId": "IT-WSG260085", "issue": " WO-WSGTH-260502050>>WOC-WSGTH-260503765>>MFG Scrap Loss Reason>>Normal Min. แก้จาก 4820 แก้ 420 ", "category": "แก้ไขข้อมูลเอกสาร", "depot": "Head Office (HQ)", "department": "Production", "requester": "แอนนา", "datetime": "2026-02-06T14:20:00", "status": "เสร็จสิ้น", "priority": "ด่วน (High)", "assignedTo": "คุณเทพ", "resolution": "แก้เอกสารตาม User แจ้งใน netsuite", "rootCause": "บันทึกข้อมูลผิดพลาดจาก user", "createdBy": "Anna"}, {"caseId": "IT-WSG260086", "issue": "IT-WSGTH-260600139  แก้เป็นวันที่ 29-05-2026", "category": "แก้ไขข้อมูลเอกสาร", "depot": "Head Office (HQ)", "department": "Accounting", "requester": "Patcharin  Ocha", "datetime": "2026-02-06T14:56:00", "status": "เสร็จสิ้น", "priority": "ทั่วไป (Low)", "assignedTo": "คุณมุก", "resolution": "", "rootCause": "", "createdBy": "AC COST"}, {"caseId": "IT-WSG260087", "issue": "IT-WSGTH-260600198  แก้เป็นวันที่ 02-05-2026", "category": "แก้ไขข้อมูลเอกสาร", "depot": "DC011 - สาขาพัทยา", "department": "Accounting", "requester": "Patcharin  Ocha", "datetime": "2026-02-06T14:58:00", "status": "เสร็จสิ้น", "priority": "ทั่วไป (Low)", "assignedTo": "คุณมุก", "resolution": "", "rootCause": "", "createdBy": "AC COST"}, {"caseId": "IT-WSG260088", "issue": "IT-WSGTH-260600212  แก้เป็นวันที่ 23-05-2026", "category": "แก้ไขข้อมูลเอกสาร", "depot": "DC017 - สาขาสมุทรปราการ", "department": "Accounting", "requester": "Patcharin  Ocha", "datetime": "2026-02-06T16:31:00", "status": "เสร็จสิ้น", "priority": "ทั่วไป (Low)", "assignedTo": "คุณมุก", "resolution": "", "rootCause": "", "createdBy": "AC COST"}, {"caseId": "IT-WSG260089", "issue": "IT-WSGTH-260600227  แก้เป็นวันที่ 30-05-2026", "category": "แก้ไขข้อมูลเอกสาร", "depot": "DC016 - สาขาเชียงใหม่", "department": "Accounting", "requester": "Patcharin  Ocha", "datetime": "2026-02-06T17:12:00", "status": "เสร็จสิ้น", "priority": "ทั่วไป (Low)", "assignedTo": "คุณมุก", "resolution": "", "rootCause": "", "createdBy": "AC COST"}, {"caseId": "IT-WSG260090", "issue": "WO-WSGTH-260502118>>WOC-WSGTH-260503764>>IA-WSGTH-260505264>> 4100CN00 จาก -1500 เป็น -1200\n\nWO-WSGTH-260501807>>\tWOC-WSGTH-240203421>>IA-WSGTH-240204615>>4100CN00 จาก -1968 เป็น -2268", "category": "แก้ไขข้อมูลเอกสาร", "depot": "Head Office (HQ)", "department": "Production", "requester": "แอนนา", "datetime": "2026-03-06T09:29:00", "status": "เสร็จสิ้น", "priority": "ด่วน (High)", "assignedTo": "คุณเทพ", "resolution": "แก้เอกสารตาม User แจ้งใน netsuite", "rootCause": "บันทึกข้อมูลผิดพลาดจาก user", "createdBy": "Anna"}, {"caseId": "IT-WSG260091", "issue": "IT-WSGTH-260600335  แก้เป็นวันที่ 30-05-2026\nIT-WSGTH-260600338  แก้เป็นวันที่ 30-05-2026\nIT-WSGTH-260600342  แก้เป็นวันที่ 30-05-2026\nIT-WSGTH-260600345  แก้เป็นวันที่ 30-05-2026\n", "category": "แก้ไขข้อมูลเอกสาร", "depot": "DC001 - สาขาขอนแก่น", "department": "Accounting", "requester": "Patcharin  Ocha", "datetime": "2026-03-06T09:48:00", "status": "เสร็จสิ้น", "priority": "ทั่วไป (Low)", "assignedTo": "คุณมุก", "resolution": "", "rootCause": "", "createdBy": "AC COST"}, {"caseId": "IT-WSG260092", "issue": "สาย1  IT-WSGTH-260600483  แก้เป็นวันที่ 04-05-2026\nสาย1  IT-WSGTH-260600337  แก้เป็นวันที่ 12-05-2026\nสาย3  IT-WSGTH-260600491  แก้เป็นวันที่ 29-05-2026\nสาย6  IT-WSGTH-260600324  แก้เป็นวันที่ 14-05-2026\nสาย6  IT-WSGTH-260600311  แก้เป็นวันที่ 05-05-2026\nสาย8  IT-WSGTH-260600495  แก้เป็นวันที่ 02-05-2026\nสาย7  IT-WSGTH-260600500  แก้เป็นวันที่ 23-05-2026", "category": "แก้ไขข้อมูลเอกสาร", "depot": "DC016 - สาขาเชียงใหม่", "department": "Accounting", "requester": "Patcharin  Ocha", "datetime": "2026-03-06T10:36:00", "status": "เสร็จสิ้น", "priority": "ทั่วไป (Low)", "assignedTo": "คุณมุก", "resolution": "", "rootCause": "", "createdBy": "AC COST"}, {"caseId": "IT-WSG260093", "issue": "IT-WSGTH-260600341  แก้เป็นวันที่ 30-05-2026", "category": "แก้ไขข้อมูลเอกสาร", "depot": "DC001 - สาขาขอนแก่น", "department": "Accounting", "requester": "Patcharin  Ocha", "datetime": "2026-03-06T11:11:00", "status": "เสร็จสิ้น", "priority": "ทั่วไป (Low)", "assignedTo": "คุณมุก", "resolution": "", "rootCause": "", "createdBy": "AC COST"}, {"caseId": "IT-WSG260094", "issue": "IT-WSGTH-260600646  แก้เป็นวันที่ 30-05-2026", "category": "แก้ไขข้อมูลเอกสาร", "depot": "DC001 - สาขาขอนแก่น", "department": "Accounting", "requester": "Patcharin  Ocha", "datetime": "2026-03-06T18:27:00", "status": "เสร็จสิ้น", "priority": "ทั่วไป (Low)", "assignedTo": "คุณมุก", "resolution": "", "rootCause": "", "createdBy": "AC COST"}, {"caseId": "IT-WSG260095", "issue": "TO-WSGTH-260600149  แก้เป็นวันที่ 30-05-2026", "category": "แก้ไขข้อมูลเอกสาร", "depot": "DC001 - สาขาขอนแก่น", "department": "Accounting", "requester": "Patcharin  Ocha", "datetime": "2026-04-06T08:46:00", "status": "เสร็จสิ้น", "priority": "ทั่วไป (Low)", "assignedTo": "คุณมุก", "resolution": "", "rootCause": "", "createdBy": "AC COST"}, {"caseId": "IT-WSG260096", "issue": "TO-WSGTH-260600078  แก้เป็นวันที่ 04-05-2026\nTO-WSGTH-260600081  แก้เป็นวันที่ 14-05-2026\nTO-WSGTH-260600084  แก้เป็นวันที่ 12-05-2026\nTO-WSGTH-260600112  แก้เป็นวันที่ 04-05-2026\nTO-WSGTH-260600120  แก้เป็นวันที่ 29-05-2026\nTO-WSGTH-260600123  แก้เป็นวันที่ 02-05-2026\nTO-WSGTH-260600133  แก้เป็นวันที่ 23-05-2026\nTO-WSGTH-260600184  แก้เป็นวันที่ 31-05-2026", "category": "แก้ไขข้อมูลเอกสาร", "depot": "DC016 - สาขาเชียงใหม่", "department": "Accounting", "requester": "Patcharin  Ocha", "datetime": "2026-04-06T10:59:00", "status": "เสร็จสิ้น", "priority": "ทั่วไป (Low)", "assignedTo": "คุณมุก", "resolution": "", "rootCause": "", "createdBy": "AC COST"}, {"caseId": "IT-WSG260097", "issue": "เพิ่ม Unit>>Class: Finished Goods : Frozen : Bakery (Frozen) >>Box (160) และ Box (280)", "category": "ซอฟต์แวร์และแอป (Software)", "depot": "Head Office (HQ)", "department": "Production", "requester": "แอนนา", "datetime": "2026-04-06T15:59:00", "status": "เสร็จสิ้น", "priority": "ด่วน (High)", "assignedTo": "คุณเทพ", "resolution": "เพิ่มหน่วยสินค้า FG NetSuite ตามที่ USER แจ้ง", "rootCause": "เพิ่มเติมไม่ใช่ปัญหา", "createdBy": "Anna"}, {"caseId": "IT-WSG260100", "issue": "ยกเลิกรายชื่อพนักงานและเพิ่มรายชื่อใหม่ในระบบ NS", "category": "ไม่ระบุ", "depot": "DC017 - สาขาสมุทรปราการ", "department": "Sales", "requester": "ฟารีดา", "datetime": "2026-05-06T13:17:00", "status": "รอดำเนินการ", "priority": "ไม่ระบุ", "assignedTo": "ไม่ระบุ", "resolution": "", "rootCause": "", "createdBy": "Depot Samutprakan2"}, {"caseId": "IT-WSG260101", "issue": "\tขอแก้ไข WOC\t\t\t\t\n\n", "category": "แก้ไขข้อมูลเอกสาร", "depot": "Head Office (HQ)", "department": "Production", "requester": "ศศิพิมล  พูลสวัสดิ์", "datetime": "2026-05-06T13:40:00", "status": "เสร็จสิ้น", "priority": "ด่วน (High)", "assignedTo": "คุณเทพ", "resolution": "แก้ไขข้อมูลตาม  User แจ้ง", "rootCause": "ผิดพลาดจากการลงข้อมูลจาก User", "createdBy": "Supervisor Meadowgreen"}, {"caseId": "IT-WSG260102", "issue": "แก้ไข WOC", "category": "แก้ไขข้อมูลเอกสาร", "depot": "Head Office (HQ)", "department": "Production", "requester": "ศศิพิมล  พูลสวัสดิ์", "datetime": "2026-05-06T13:41:00", "status": "เสร็จสิ้น", "priority": "ด่วน (High)", "assignedTo": "คุณเทพ", "resolution": "แก้ไขข้อมูลตาม  User แจ้ง", "rootCause": "ผิดพลาดจากการลงข้อมูลจาก User", "createdBy": "Supervisor Meadowgreen"}, {"caseId": "IT-WSG260103", "issue": "WO-WSGTH-260600144>>WOC-WSGTH-260600208>>IA-WSGTH-260600262 แก้ 4100FI04 -20 เป็น -30 Lo260602\n\n\n\n**พนังานผลิตลงยอดใช้ไม่ครบ", "category": "แก้ไขข้อมูลเอกสาร", "depot": "Head Office (HQ)", "department": "Production", "requester": "แอนนา", "datetime": "2026-05-06T16:36:00", "status": "เสร็จสิ้น", "priority": "ด่วน (High)", "assignedTo": "คุณเทพ", "resolution": "แก้ไขข้อมูลตาม user แจ้ง", "rootCause": "ใส่ข้อมูลผิดจาก User", "createdBy": "Anna"}, {"caseId": "IT-WSG260104", "issue": "WO-WSGTH-260600295>>WOC-WSGTH-260600517>>IA-WSGTH-260600713>>4103L401 แก้จาก -12289 เป็น -11069\n\n\n\n**ผลิตนับของเหลือผิด", "category": "แก้ไขข้อมูลเอกสาร", "depot": "Head Office (HQ)", "department": "Production", "requester": "แอนนา", "datetime": "2026-06-06T08:51:00", "status": "รอตรวจสอบ", "priority": "ด่วน (High)", "assignedTo": "คุณเทพ", "resolution": "แก้ไขข้อมูลตาม user แจ้ง", "rootCause": "user คีย์ตัวเลขผิดพลาด", "createdBy": "Anna"}, {"caseId": "IT-WSG260105", "issue": "ขอแก้ไข WOC ตามไฟล์แนบนี้ค่ะ เนื่องจากต้องเพิ่มจำนวนสารเลซิตินที่ติดไปกับถัง ที่ไม่สามารถเอามาใช้ได้หมดค่ะ", "category": "แก้ไขข้อมูลเอกสาร", "depot": "Head Office (HQ)", "department": "Production", "requester": "ศศิพิมล  พูลสวะสดิ์", "datetime": "2026-08-06T08:10:00", "status": "เสร็จสิ้น", "priority": "ด่วน (High)", "assignedTo": "คุณเทพ", "resolution": "แก้ไขจำนวนตาม user เนื่อง", "rootCause": "user ใส่ข้อมูลผิด", "createdBy": "Supervisor Meadowgreen"}, {"caseId": "IT-WSG260106", "issue": "แก้ไขสูตร (รายงาน+ค่าคอมมิชชั่นนม)", "category": "ไฟล์คำนวณคอมมิชชั่นฝ่ายขาย", "depot": "DC011 - สาขาพัทยา", "department": "Sales", "requester": "กมลรัตน์ (การเงินพัทยา)", "datetime": "2026-10-06T14:18:00", "status": "เสร็จสิ้น", "priority": "ปกติ (Medium)", "assignedTo": "คุณเทพ", "resolution": "แก้ไขสูตรที่คำนวนผิด", "rootCause": "ปัญหาจาก user ใส่ข้อมูลผิดและปรับสูตรเองบางจุด", "createdBy": "Depot Pattaya"}, {"caseId": "IT-WSG260107", "issue": "WO-WSGTH-260600677>>WOC-WSGTH-260601144>>IA-WSGTH-260601576>>แก้ยอด 1100CL01จาก-0.0138 เป็น -0.02416 และ 1100CL10 จาก-0.047138 เป็น-0.08254\n\n\n\n**มีการปรับเพิ่มสีในเอกสารแต่ไม่ได้นำไปเข้าสูตรใช้เพิ่ม", "category": "แก้ไขข้อมูลเอกสาร", "depot": "Head Office (HQ)", "department": "Production", "requester": "แอนนา", "datetime": "2026-11-06T14:38:00", "status": "เสร็จสิ้น", "priority": "ด่วน (High)", "assignedTo": "คุณเทพ", "resolution": "แก้ไขจำนวนตาม USER แจ้ง", "rootCause": "user ใส่จำนวนผิด", "createdBy": "Anna"}, {"caseId": "IT-WSG260108", "issue": "เนื่องจากยังไม่ได้ตัวเลขมาจากสโตร์เลยไม่ได้ตัดในBOM \nแต่ต้องรับแป้งเข้าเพื่อตัดFGค่ะ", "category": "ไม่ระบุ", "depot": "Head Office (HQ)", "department": "Production", "requester": "Sasipimon   ", "datetime": "2026-11-06T16:18:00", "status": "รอดำเนินการ", "priority": "ไม่ระบุ", "assignedTo": "ไม่ระบุ", "resolution": "", "rootCause": "", "createdBy": "Supervisor Meadowgreen"}, {"caseId": "IT-WSG260109", "issue": "เปลี่ยนทะเบียนรถขายสาย 6 จากเดิม ทะเบียน 82-1924 ปจ. เปลี่ยนเป็น 4ฒญ 297 กทม.", "category": "ระบบโปรแกรมขาย POS ,เวปแอพ", "depot": "DC014 - สาขาสงขลา", "department": "Sales", "requester": "อารียา บินบอสอ", "datetime": "2026-12-06T09:49:00", "status": "เสร็จสิ้น", "priority": "ทั่วไป (Low)", "assignedTo": "คุณมุก", "resolution": "", "rootCause": "", "createdBy": "Depot Songkhla"}, {"caseId": "IT-WSG260110", "issue": "ขอเบิกเครื่องปริ้นทดแทนเครื่องที่พังค่ะ", "category": "เครื่องพิมพ์และอุปกรณ์ต่อพ่วง (Peripherals)", "depot": "DC004 - สาขาร้อยเอ็ด", "department": "Sales", "requester": "คุณจันจิรา", "datetime": "2026-12-06T14:20:00", "status": "เสร็จสิ้น", "priority": "ปกติ (Medium)", "assignedTo": "คุณแทน", "resolution": "เปลี่ยนเครื่องปริ้นใหม่ทดแทน", "rootCause": "", "createdBy": "Depot Roiet"}, {"caseId": "IT-WSG260111", "issue": "เนื่องจากเปลี่ยนมาใช้เป็นกะทิคั้น ต้องเปลี่ยนยอดตัดBOM ค่ะ", "category": "ไม่ระบุ", "depot": "Head Office (HQ)", "department": "Production", "requester": "Sasipimon", "datetime": "2026-12-06T16:20:00", "status": "รอดำเนินการ", "priority": "ไม่ระบุ", "assignedTo": "ไม่ระบุ", "resolution": "", "rootCause": "", "createdBy": "Supervisor Meadowgreen"}, {"caseId": "IT-WSG260112", "issue": "Excel save ไม่ได้", "category": "ระบบบัญชีผู้ใช้ (Account/Access)", "depot": "Head Office (HQ)", "department": "Production", "requester": "แอนนา", "datetime": "2026-06-15T09:16:00", "status": "เสร็จสิ้น", "priority": "ปกติ (Medium)", "assignedTo": "คุณแทน", "resolution": "login Microsoft 365 ใหม่", "rootCause": "", "createdBy": "Anna"}, {"caseId": "IT-WSG260113", "issue": "แก้วันที่ Item Receipt\nIR-WSGTH-0000090048 แก้ไขวันที่จาก18.06.2026 เป็น 13.06.2026", "category": "ไม่ระบุ", "depot": "Head Office (HQ)", "department": "Production", "requester": "แอนนา", "datetime": "2026-06-16T09:50:00", "status": "รอดำเนินการ", "priority": "ไม่ระบุ", "assignedTo": "ไม่ระบุ", "resolution": "", "rootCause": "", "createdBy": "Anna"}, {"caseId": "IT-WSG260114", "issue": "ไม่สามารถส่งเมลได้และเมลไม่อัพเดต ", "category": "ซอฟต์แวร์และแอป (Software)", "depot": "DC007 - สาขาอุดรธานี", "department": "Sales", "requester": "หนึ่งฤทัย", "datetime": "2026-06-17T09:45:00", "status": "เสร็จสิ้น", "priority": "ปกติ (Medium)", "assignedTo": "คุณแทน", "resolution": "ย้ายไฟล์ outlook ออกจาก Onedrive สร้างโปรไฟล์ Outlook ใหม่", "rootCause": "", "createdBy": "Depot Udon"}, {"caseId": "IT-WSG260115", "issue": "เวลาส่ง เมลล์กลุ่ม costingwsg@mingoicecream.com     แล้วไม่เข้า patcharin.p@mingoicecream.com    รบวกวนเช็คให้หน่อยค่ะว่าเมลล์พี่ปิ๋มอยู่ในกลุ่มด้วยหรือไม่  ถ้าไม่อยู่  ให้ดึงเข้าให้ดด้วยค่ะ\n\n\nโดยสมาชิก costingwsg  ปัจจุบันมี 4 คน\n\npatcharin.o@mingoicecream.com\nseniorcosting@mingoicecream.com\nphonkanok.t@mingoicecream.com\npatcharin.p@mingoicecream.com ", "category": "ระบบบัญชีผู้ใช้ (Account/Access)", "depot": "Head Office (HQ)", "department": "Accounting", "requester": "พรกนก ธรรมประโคน", "datetime": "2026-06-17T10:15:00", "status": "เสร็จสิ้น", "priority": "ปกติ (Medium)", "assignedTo": "คุณแทน", "resolution": "เพิ่ม patcharin.p@mingoicecream.com ในกลุ่มเมลล์  costingwsg@mingoicecream.com", "rootCause": "", "createdBy": "costingsectionhead"}, {"caseId": "IT-WSG260116", "issue": "เนื่องจากเครื่องริ้นบิลสาย 1 (เบเกอรี่) ดับ ปริ้น 1 ใบ แล้วเครื่องดับ จึงขอเปลี่ยนเครื่องใหม่ค่ะ", "category": "ไม่ระบุ", "depot": "DC004 - สาขาร้อยเอ็ด", "department": "Sales", "requester": "คุณจันจิรา", "datetime": "2026-06-17T14:38:00", "status": "รอดำเนินการ", "priority": "ไม่ระบุ", "assignedTo": "ไม่ระบุ", "resolution": "", "rootCause": "", "createdBy": "Depot Roiet"}];
+/* ============ EMBEDDED DATA ============ */
+const EMBEDDED_DATA = [{"caseId": "IT-WSG260005", "issue": "แก้ไขเอกสารเนื่องจากที่อยู่ลูกค้าไม่ถูกต้อง", "category": "ระบบเครือข่าย (Network/Internet)", "depot": "Head Office (HQ)", "department": "Purchase", "requester": "thiyadaJ", "datetime": "2026-03-04T13:59:00", "status": "เสร็จสิ้น", "priority": "ด่วน (High)", "assignedTo": "คุณเทพ", "resolution": "Test", "rootCause": "", "createdBy": "Thiyada Jiranuwat"}, {"caseId": "IT-WSG260007", "issue": "เนืองจากใช้เวอร์ชั่นเก่า", "category": "อุปกรณ์คอมพิวเตอร์ (Hardware)", "depot": "DC005 - สาขาอุบลราชธานี", "department": "Sales", "requester": "มุก", "datetime": "2026-07-04T10:39:00", "status": "ยกเลิก", "priority": "ปกติ (Medium)", "assignedTo": "คุณมุก", "resolution": "", "rootCause": "", "createdBy": "Thiyada Jiranuwat"}, {"caseId": "IT-WSG260008", "issue": "เข้ารหัส netsuite ไม่ได้ ผมใช้เมลล์ teppithuk@mingoicecream.com", "category": "ระบบบัญชีผู้ใช้ (Account/Access)", "depot": "Head Office (HQ)", "department": "Marketing", "requester": "เทพพิทักษ์", "datetime": "2026-08-04T06:53:00", "status": "เสร็จสิ้น", "priority": "ด่วน (High)", "assignedTo": "คุณเทพ", "resolution": "reset รหัสผ่านใน netsuite", "rootCause": "user ลืมรหัสผ่าน", "createdBy": "Tep IT"}, {"caseId": "IT-WSG260009", "issue": "เปิดโปรแกรมขายที่มือถือไม่ได้", "category": "ระบบโปรแกรมขาย POS ,เวปแอพ", "depot": "Head Office (HQ)", "department": "Marketing", "requester": "คุณเทพ", "datetime": "2026-08-04T11:48:00", "status": "เสร็จสิ้น", "priority": "ด่วน (High)", "assignedTo": "คุณเทพ", "resolution": "", "rootCause": "", "createdBy": "I.T TEST"}, {"caseId": "IT-WSG260010", "issue": "สั่งปริ้นงานที่คอม แต่ไม่มีคำสั่งงานที่ปริ้นที่เครื่องปริ้น", "category": "ซอฟต์แวร์และแอป (Software)", "depot": "Head Office (HQ)", "department": "Accounting", "requester": "คุณพวง ", "datetime": "2026-04-29T14:17:00", "status": "เสร็จสิ้น", "priority": "ด่วน (High)", "assignedTo": "คุณแทน", "resolution": "ใส่รหัสปริ้นเตอร์ของผู้ใช้งานใหม่ ", "rootCause": "", "createdBy": "AC AP"}, {"caseId": "IT-WSG260011", "issue": "ส่งเมลล์แล้ว ส่งไม่ได้ เมลล์ค้างอยู่ที่ outbox", "category": "ซอฟต์แวร์และแอป (Software)", "depot": "Head Office (HQ)", "department": "Accounting", "requester": "คุณ พวง", "datetime": "2026-04-29T14:23:00", "status": "เสร็จสิ้น", "priority": "ปกติ (Medium)", "assignedTo": "คุณแทน", "resolution": "ตั้งค่า encryption  method ฝั่ง outgoing ของ outlook เป็น none", "rootCause": "จาก วินโดว์อัพเดตแล้วทำให้ office ติดปัญหา", "createdBy": "AC AP"}, {"caseId": "IT-WSG260012", "issue": "เปิดใช้งานเครื่องขายไม่ได้ เปิด-ปิด แอพแล้วยังไม่ได้ค่ะ\nสาย 3 ไอติม สาขาปราจีน", "category": "อุปกรณ์คอมพิวเตอร์ (Hardware)", "depot": "Head Office (HQ)", "department": "IT", "requester": "ธิญาดา", "datetime": "2026-04-29T15:57:00", "status": "เสร็จสิ้น", "priority": "ไม่ระบุ", "assignedTo": "คุณมุก", "resolution": "", "rootCause": "", "createdBy": "I.T TEST"}, {"caseId": "IT-WSG260013", "issue": "เครื่องขายไม่สามารถซิงค์เครื่องได้ หน้าจอเข้าโปรแกมหมุน เปิดเน็ตปกติ (ทดสอบค่ะ)", "category": "ระบบโปรแกรมขาย POS ,เวปแอพ", "depot": "DC004 - สาขาร้อยเอ็ด", "department": "Sales", "requester": "สุกัญญา  คงชูศรี (พลอย)", "datetime": "2026-01-05T09:21:00", "status": "เสร็จสิ้น", "priority": "ด่วน (High)", "assignedTo": "คุณเทพ", "resolution": "ทดสอบ", "rootCause": "ทดสอบ", "createdBy": "Depot Roiet"}, {"caseId": "IT-WSG260014", "issue": "ไฟล์ค่าคอมสาย 7 Cj สาขาพัทยาค่ะ ", "category": "ไฟล์คำนวณคอมมิชชั่นฝ่ายขาย", "depot": "DC011 - สาขาพัทยา", "department": "Sales", "requester": " สาขาพัทยา", "datetime": "2026-02-05T09:14:00", "status": "เสร็จสิ้น", "priority": "ด่วน (High)", "assignedTo": "คุณเทพ", "resolution": "ดำเนินการได้วันจันทร์ที่ 4 พฤษภาคมช่วงบ่ายครับ", "rootCause": "ไม่ใช่ปัญหา เป็นการปรับแก้ค่าคอมสายส่ง CJ more ตามประกาศใหม่", "createdBy": "Depot Pattaya"}, {"caseId": "IT-WSG260015", "issue": "เวลาเข้า-ออกงานไม่โชว์/ดึงเวลาสแกนนิ้วพนักงานใหม่", "category": "ซอฟต์แวร์และแอป (Software)", "depot": "DC011 - สาขาพัทยา", "department": "Sales", "requester": "กมลรัตน์ (การเงิน)", "datetime": "2026-02-05T09:26:00", "status": "เสร็จสิ้น", "priority": "ปกติ (Medium)", "assignedTo": "คุณแทน", "resolution": "เพิ่มตารางช่วงกะเวลาการทำงานของพนักงานให้ใหม่", "rootCause": "", "createdBy": "Depot Pattaya"}, {"caseId": "IT-WSG260016", "issue": "คาดว่าซับหมึกเต็ม ", "category": "เครื่องพิมพ์และอุปกรณ์ต่อพ่วง (Peripherals)", "depot": "DC006 - สาขานครสวรรค์", "department": "IT", "requester": "เช็คเกอร์นครสวรรค์", "datetime": "2026-02-05T10:14:00", "status": "เสร็จสิ้น", "priority": "ปกติ (Medium)", "assignedTo": "คุณแทน", "resolution": "ซับหมึกเครื่องปริ้นเต็ม แก้ไขโดยให้โปรแกรมเคลียซับหมึก", "rootCause": "", "createdBy": "Depot Nakhonsawan"}, {"caseId": "IT-WSG260017", "issue": "ซับหมึกเต็ม", "category": "เครื่องพิมพ์และอุปกรณ์ต่อพ่วง (Peripherals)", "depot": "DC006 - สาขานครสวรรค์", "department": "Sales", "requester": "เช็คเกอร์", "datetime": "2026-02-05T10:18:00", "status": "เสร็จสิ้น", "priority": "ปกติ (Medium)", "assignedTo": "คุณแทน", "resolution": "ซับหมึกเครื่องปริ้นเต็ม แก้ไขโดยให้โปรแกรมเคลียซับหมึก", "rootCause": "", "createdBy": "Depot Nakhonsawan"}, {"caseId": "IT-WSG260018", "issue": "เข้าใช้งาน pr ในระบบ NS ไม่ได้ ในระบบให้ใส่คำตอบของคำถามความปลอดภัย", "category": "ซอฟต์แวร์และแอป (Software)", "depot": "Head Office (HQ)", "department": "Production", "requester": "Safety", "datetime": "2026-04-05T08:48:00", "status": "เสร็จสิ้น", "priority": "ด่วน (High)", "assignedTo": "คุณแทน", "resolution": "Reset password Netsuite : Roles PR ", "rootCause": "", "createdBy": "safety"}, {"caseId": "IT-WSG260019", "issue": "IT-WSGTH-260500210 แก้เป็นวันที่ 25-04-2026\n\nIT-WSGTH-260500216  แก้เป็นวันที่ 22-04-2026\n\nIT-WSGTH-260500220  แก้เป็นวันที่ 22-04-2026\n\nIT-WSGTH-260500223  แก้เป็นวันที่ 08-04-2026\n\nIT-WSGTH-260500225  แก้เป็นวันที่ 20-04-2026\n\nIT-WSGTH-260500228  แก้เป็นวันที่ 16-04-2026\n\nIT-WSGTH-260500232  แก้เป็นวันที่ 10-04-2026\n\nIT-WSGTH-260500229  แก้เป็นวันที่ 10-04-2026\n\nIT-WSGTH-260500235  แก้เป็นวันที่ 25-04-2026\n\nIT-WSGTH-260500236  แก้เป็นวันที่ 20-04-2026\n\nIT-WSGTH-260500237  แก้เป็นวันที่ 30-04-2026\n\nIT-WSGTH-260500239  แก้เป็นวันที่ 22-04-2026\n\nIT-WSGTH-260500242  แก้เป็นวันที่ 16-04-2026\n\nIT-WSGTH-260500246  แก้เป็นวันที่ 07-04-2026\n\nIT-WSGTH-260500249  แก้เป็นวันที่ 06-04-2026\n", "category": "อื่นๆ (Others)", "depot": "Head Office (HQ)", "department": "Accounting", "requester": "Patcharin Ocha", "datetime": "2026-04-05T14:12:00", "status": "เสร็จสิ้น", "priority": "ปกติ (Medium)", "assignedTo": "คุณมุก", "resolution": "แก้ไขวันที่เอกสาร", "rootCause": "", "createdBy": "AC COST"}, {"caseId": "IT-WSG260020", "issue": "HR เชื่อมต่อเครื่องสแกนนิ้วของสาขาสุราษฏร์ธานีไม่ได้", "category": "ระบบเครือข่าย (Network/Internet)", "depot": "DC013 - สาขาสุราษฎร์ธานี", "department": "Sales", "requester": "การเงินสุราษฏร์", "datetime": "2026-04-05T15:09:00", "status": "เสร็จสิ้น", "priority": "ปกติ (Medium)", "assignedTo": "คุณแทน", "resolution": "ลงโปรแกรม DUC เพื่อให้อัพเดท IP กับ NoIP", "rootCause": "", "createdBy": "Depot Surat"}, {"caseId": "IT-WSG260021", "issue": "เนื่องจาก ได้รับมอบหมายให้ช่วยสอนงานเสมียน , การเงิน สาขาเชียงใหม่ จึงจะทำการตรวจเช็คงานย้อนหลังว่ามีบิลตกค้างไหมค่ะ", "category": "อื่นๆ (Others)", "depot": "DC003 - สาขานครราชสีมา", "department": "IT", "requester": "น.ส. เพ็ญนภา แก้วนะรา", "datetime": "2026-04-05T15:14:00", "status": "เสร็จสิ้น", "priority": "ปกติ (Medium)", "assignedTo": "คุณเทพ", "resolution": "เรียกข้อมูลส่วนที่ user จากระบบส่งให้ใช้งาน", "rootCause": "-", "createdBy": "Depot Korat"}, {"caseId": "IT-WSG260022", "issue": "ขอแก้ไข Adjustment\nIA-WSGTH-260500547 จากเดิม 200 แก้ไขเป็น 180 (Lot 260424)", "category": "ซอฟต์แวร์และแอป (Software)", "depot": "Head Office (HQ)", "department": "Purchase", "requester": "ธิญาดา", "datetime": "2026-04-05T15:36:00", "status": "เสร็จสิ้น", "priority": "ปกติ (Medium)", "assignedTo": "คุณเทพ", "resolution": "แก้ไข Adjustment IA ในระบบ NetSuite ตามที่ User แจ้ง", "rootCause": "User คีย์ข้อมูล Adjustment ผิด", "createdBy": "Thiyada Jiranuwat"}, {"caseId": "IT-WSG260023", "issue": "ปรับปรุงยอด IA-WSGTH-260500547", "category": "แก้ไขข้อมูลเอกสาร", "depot": "Head Office (HQ)", "department": "Accounting", "requester": " Patcharin Ocha", "datetime": "2026-04-05T15:43:00", "status": "เสร็จสิ้น", "priority": "ด่วน (High)", "assignedTo": "คุณเทพ", "resolution": "แก้ไข Adjustment IA ในระบบ NetSuite ตามที่ User แจ้ง", "rootCause": "User คีย์ข้อมูล Adjustment ผิด", "createdBy": "AC COST"}, {"caseId": "IT-WSG260024", "issue": "เปิดโปรแกรมขายที่มือถือไม่ได้", "category": "อุปกรณ์คอมพิวเตอร์ (Hardware)", "depot": "DC013 - สาขาสุราษฎร์ธานี", "department": "Sales", "requester": "พี่โอ๋", "datetime": "2026-08-04T12:00:00", "status": "ยกเลิก", "priority": "ไม่ระบุ", "assignedTo": "คุณแทน", "resolution": "", "rootCause": "", "createdBy": "I.T TEST"}, {"caseId": "IT-WSG260025", "issue": "IT-WSGTH-260501625 แก้ไขเป็นวันที่ 02-04-2026\nIT-WSGTH-260501627 แก้ไขเป็นวันที่ 04-04-2026\nIT-WSGTH-260501630 แก้ไขเป็นวันที่ 04-04-2026\n", "category": "ไฟล์คำนวณคอมมิชชั่นฝ่ายขาย", "depot": "Head Office (HQ)", "department": "Accounting", "requester": " Patcharin Ocha", "datetime": "2026-08-04T13:40:00", "status": "เสร็จสิ้น", "priority": "ด่วน (High)", "assignedTo": "คุณเทพ", "resolution": "แก้ไข วันที่ในเอกสารขาย NetSuite", "rootCause": "User คีย์วันที่ในเอกสารขายผิด", "createdBy": "AC COST"}, {"caseId": "IT-WSG260026", "issue": "ขอรหัส POS พนักงานใหม่ สายนมCJพัทยา (F01CJPTY06) ณัฐกานต์", "category": "อื่นๆ (Others)", "depot": "DC011 - สาขาพัทยา", "department": "Sales", "requester": "พี่หมู", "datetime": "2026-08-04T15:00:00", "status": "เสร็จสิ้น", "priority": "ไม่ระบุ", "assignedTo": "คุณแทน", "resolution": "สร้างรหัส POS พนักงานใหม่ในระบบ", "rootCause": "พนักงานใหม่", "createdBy": "I.T TEST"}, {"caseId": "IT-WSG260027", "issue": "POS ใช้งานไม่ได้", "category": "ระบบโปรแกรมขาย POS ,เวปแอพ", "depot": "DC011 - สาขาพัทยา", "department": "Sales", "requester": "พี่หมู", "datetime": "2026-08-04T15:10:00", "status": "เสร็จสิ้น", "priority": "ไม่ระบุ", "assignedTo": "คุณมุก", "resolution": "Restart App POS", "rootCause": "App POS ค้าง", "createdBy": "I.T TEST"}, {"caseId": "IT-WSG260028", "issue": "ปริ้นใบเสร็จ CJ ไม่ได้", "category": "เครื่องพิมพ์และอุปกรณ์ต่อพ่วง (Peripherals)", "depot": "DC011 - สาขาพัทยา", "department": "Sales", "requester": "พี่หมู", "datetime": "2026-08-04T15:15:00", "status": "เสร็จสิ้น", "priority": "ไม่ระบุ", "assignedTo": "คุณมุก", "resolution": "เชื่อมต่อ Bluetooth ปริ้นเตอร์ใหม่", "rootCause": "Bluetooth หลุด", "createdBy": "I.T TEST"}, {"caseId": "IT-WSG260029", "issue": "ขอรหัส POS พนักงานใหม่", "category": "อื่นๆ (Others)", "depot": "DC013 - สาขาสุราษฎร์ธานี", "department": "Sales", "requester": "พี่โอ๋", "datetime": "2026-08-04T15:30:00", "status": "เสร็จสิ้น", "priority": "ไม่ระบุ", "assignedTo": "คุณเทพ", "resolution": "สร้างรหัส POS พนักงานใหม่ในระบบ", "rootCause": "พนักงานใหม่", "createdBy": "I.T TEST"}, {"caseId": "IT-WSG260030", "issue": "POS ค้าง", "category": "ระบบโปรแกรมขาย POS ,เวปแอพ", "depot": "DC013 - สาขาสุราษฎร์ธานี", "department": "Sales", "requester": "พี่โอ๋", "datetime": "2026-08-04T15:40:00", "status": "เสร็จสิ้น", "priority": "ไม่ระบุ", "assignedTo": "คุณมุก", "resolution": "Restart App POS", "rootCause": "App POS ค้าง", "createdBy": "I.T TEST"}, {"caseId": "IT-WSG260031", "issue": "ปรับปรุง IA-WSGTH-260501131", "category": "ไฟล์คำนวณคอมมิชชั่นฝ่ายขาย", "depot": "Head Office (HQ)", "department": "Accounting", "requester": " Patcharin Ocha", "datetime": "2026-08-04T16:00:00", "status": "เสร็จสิ้น", "priority": "ด่วน (High)", "assignedTo": "คุณเทพ", "resolution": "แก้ไข Adjustment IA ในระบบ NetSuite ตามที่ User แจ้ง", "rootCause": "User คีย์ข้อมูล Adjustment ผิด", "createdBy": "AC COST"}, {"caseId": "IT-WSG260032", "issue": "ปริ้นส์ใบเสร็จ CJ ไม่ได้", "category": "เครื่องพิมพ์และอุปกรณ์ต่อพ่วง (Peripherals)", "depot": "DC013 - สาขาสุราษฎร์ธานี", "department": "Sales", "requester": "พี่โอ๋", "datetime": "2026-08-04T16:15:00", "status": "เสร็จสิ้น", "priority": "ไม่ระบุ", "assignedTo": "คุณแทน", "resolution": "เชื่อมต่อ Bluetooth ปริ้นเตอร์ใหม่", "rootCause": "Bluetooth หลุด", "createdBy": "I.T TEST"}, {"caseId": "IT-WSG260033", "issue": "IT-WSGTH-260501625 แก้ไขเป็นวันที่ 02-04-2026", "category": "ไม่ระบุ", "depot": "Head Office (HQ)", "department": "Accounting", "requester": " Patcharin Ocha", "datetime": "2026-08-04T16:30:00", "status": "เสร็จสิ้น", "priority": "ปกติ (Medium)", "assignedTo": "คุณมุก", "resolution": "แก้ไข วันที่ในเอกสารขาย NetSuite", "rootCause": "User คีย์วันที่ในเอกสารขายผิด", "createdBy": "AC COST"}];
 
-/* ============ COLOR TOKENS ============ */
+/* ============ COLOR TOKENS & PALETTE ============ */
 const COLORS = {
-  amber:'#F0A845', teal:'#2DD4BF', coral:'#F2545B', violet:'#8B8FF7',
-  textLow:'#5C6889'
+  amber: '#FFB347',       
+  teal: '#2DD4BF',        
+  coral: '#EF4444',       
+  violet: '#A78BFA',      
+  textLow: '#5C6889'      
 };
-const PALETTE = ['#F0A845','#2DD4BF','#8B8FF7','#F2545B','#5FB3E0','#E0A1E8','#7DDF8C','#E0C45F','#6889C9','#C97A1F'];
 
-let currentData = [];   // Master list of all processed records (raw / parsed)
-let filteredData = [];  // Current subset filtered strictly by start/end dates
+const PALETTE = [
+  '#FFB347', 
+  '#2DD4BF', 
+  '#A78BFA', 
+  '#F87171', 
+  '#60A5FA', 
+  '#E879F9', 
+  '#34D399', 
+  '#FBBF24', 
+  '#818CF8', 
+  '#A1A1AA'  
+];
+
+let currentData = [];   
+let filteredData = [];  
 
 /* ============ HELPERS ============ */
 function escapeHtml(s){
@@ -616,7 +652,6 @@ function escapeHtml(s){
 }
 const THAI_MONTHS_SHORT = ['ม.ค.','ก.พ.','มี.ค.','เม.ย.','พ.ค.','มิ.ย.','ก.ค.','ส.ค.','ก.ย.','ต.ค.','พ.ย.','ธ.ค.'];
 
-// Returns: dd/mm/yyyy
 function fmtDateShort(dateStr){
   if(!dateStr) return '—';
   const parts = dateStr.split('-');
@@ -624,32 +659,34 @@ function fmtDateShort(dateStr){
   return `${parts[2]}/${parts[1]}/${parts[0]}`;
 }
 
-// Returns dynamic range title: dd/mm/yyyy ถึง dd/mm/yyyy
 function fmtDateRange(dates){
   const valid = dates.filter(Boolean).sort();
   if(!valid.length) return '—';
-  return `${fmtDateShort(valid[0])} ถึง ${fmtDateShort(valid[valid.length-1])}`;
+  return `${fmtDateShort(valid[0])} — ${fmtDateShort(valid[valid.length-1])}`;
 }
 
 function statusBadgeClass(s){
-  if(s==='เสร็จสิ้น') return 'badge-done';
-  if(s==='รอดำเนินการ') return 'badge-pending';
-  if(s==='รอตรวจสอบ') return 'badge-review';
-  if(s==='ยกเลิก') return 'badge-cancel';
+  if(s==='เสร็จสิ้น') return 'badge-done';      
+  if(s==='รอดำเนินการ') return 'badge-pending'; 
+  if(s==='รอตรวจสอบ') return 'badge-review';  
+  if(s==='ยกเลิก') return 'badge-cancel';      
   return 'badge-unset';
 }
+
 function prioBadgeClass(p){
-  if(p && p.includes('High')) return 'badge-high';
+  if(p && p.includes('High')) return 'badge-high';   
   if(p && p.includes('Medium')) return 'badge-medium';
-  if(p && p.includes('Low')) return 'badge-low';
+  if(p && p.includes('Low')) return 'badge-low';    
   return 'badge-unset';
 }
+
 function shortDepot(d){
   if(!d) return 'ไม่ระบุ';
   if(d.includes('Head Office')) return 'HQ';
   const m = d.match(/สาขา(.+)/);
   return m ? m[1].trim() : d;
 }
+
 function groupCount(arr, keyFn){
   const m = new Map();
   arr.forEach(item=>{
@@ -661,10 +698,7 @@ function groupCount(arr, keyFn){
 
 /* ============ MASTER RENDER CONTROL LOOP ============ */
 function renderAll(data){
-  // 1. Sanitize and globally normalize legacy or imported dates to YYYY-MM-DD
   currentData = sanitizeData(data);
-  
-  // 2. Extract standard date range bounds and set inputs
   const dates = currentData.map(d => d.datetime).filter(Boolean).sort();
   if(dates.length > 0) {
     const startInput = document.getElementById('dashStartDate');
@@ -679,18 +713,14 @@ function renderAll(data){
     endInput.max = dates[dates.length - 1];
   }
   
-  // 3. Populate standard quick filters
   populateFilters(currentData);
-  
-  // 4. Trigger localized date range filter render
-  updateDashboardView(false); // don't show status badge on initial load
+  updateDashboardView(false); 
 }
 
 function updateDashboardView(showFeedback = true) {
   const startVal = document.getElementById('dashStartDate').value;
   const endVal = document.getElementById('dashEndDate').value;
   
-  // Apply date filter
   let filtered = currentData;
   if (startVal) {
     filtered = filtered.filter(d => d.datetime >= startVal);
@@ -701,7 +731,6 @@ function updateDashboardView(showFeedback = true) {
   
   filteredData = filtered;
 
-  // Render everything with the scoped date subset
   renderPeriod(filteredData);
   renderHeatStrip(filteredData);
   renderKPIs(filteredData);
@@ -714,10 +743,10 @@ function updateDashboardView(showFeedback = true) {
   renderHQDeptBreakdown(filteredData);
   renderAssignees(filteredData);
   renderRootCause(filteredData);
-  renderTable(); // updates detail table over scoped subset
+  renderTable(); 
   
   const now = new Date();
-  document.getElementById('generatedAt').textContent = 'อัปเดตเมื่อ: ' + fmtDateShort(getTodayString()) + ' ' + String(now.getHours()).padStart(2,'0')+':'+String(now.getMinutes()).padStart(2,'0');
+  document.getElementById('generatedAt').textContent = 'ประมวลผลเมื่อ: ' + fmtDateShort(getTodayString()) + ' ' + String(now.getHours()).padStart(2,'0')+':'+String(now.getMinutes()).padStart(2,'0');
 
   if(showFeedback) {
     showFilterStatusBadge();
@@ -740,7 +769,7 @@ function showFilterStatusBadge() {
   }, 2500);
 }
 
-/* ============ INDIVIDUAL PLOT RENDERERS ============ */
+/* ============ PLOT RENDERERS ============ */
 function renderPeriod(data){
   document.getElementById('periodRange').textContent = fmtDateRange(data.map(d=>d.datetime));
 }
@@ -749,11 +778,12 @@ function renderHeatStrip(data){
   const counts = groupCount(data, d=>d.depot);
   const max = Math.max(...counts.map(c=>c[1]), 1);
   const el = document.getElementById('heatRows');
+  
   el.innerHTML = counts.slice(0,10).map(([name,count])=>{
-    const pct = Math.max(6, Math.round((count/max)*100));
+    const pct = Math.max(8, Math.round((count/max)*100)); 
     return `<div class="heat-row">
       <div class="heat-label" title="${escapeHtml(name)}">${escapeHtml(shortDepot(name))}</div>
-      <div class="heat-track"><div class="heat-fill" style="width:${pct}%; background:linear-gradient(90deg, #1B2740, ${COLORS.amber});"></div></div>
+      <div class="heat-track"><div class="heat-fill" style="width:${pct}%; background:linear-gradient(90deg, #1B2740, ${COLORS.coral});"></div></div>
       <div class="heat-count">${count}</div>
     </div>`;
   }).join('');
@@ -767,11 +797,11 @@ function renderKPIs(data){
   const completionRate = total ? Math.round((done/total)*100) : 0;
 
   const cards = [
-    {cls:'k-total', label:'เคสทั้งหมด', value:total, unit:'เคส', sub:`จาก ${new Set(data.map(d=>d.depot)).size} สาขา/หน่วยงาน`},
-    {cls:'k-done', label:'ดำเนินการเสร็จสิ้น', value:done, unit:'เคส', sub:`คิดเป็น ${completionRate}% ของทั้งหมด`, subCls:'up'},
-    {cls:'k-pending', label:'รอดำเนินการ/ตรวจสอบ', value:pending, unit:'เคส', sub: pending>0 ? 'ต้องติดตามต่อ' : 'ไม่มีงานค้าง', subCls: pending>0 ? 'down':'up'},
-    {cls:'k-high', label:'ความเร่งด่วนสูง', value:high, unit:'เคส', sub:`${total? Math.round((high/total)*100):0}% ของเคสทั้งหมด`},
-    {cls:'k-sla', label:'อัตราความสำเร็จ', value:completionRate, unit:'%', sub:'เคสที่ปิดงานสำเร็จ', subCls: completionRate>=80 ? 'up':'down'},
+    {cls:'k-total', label:'เคสแจ้งซ่อมทั้งหมด', value:total, unit:'เคส', sub:`จาก ${new Set(data.map(d=>d.depot)).size} สาขา/หน่วยงาน`},
+    {cls:'k-done', label:'ดำเนินการสำเร็จ', value:done, unit:'เคส', sub:`คิดเป็น ${completionRate}% ของทั้งหมด`, subCls:'up'}, 
+    {cls:'k-pending', label:'รอดำเนินการ/ตรวจสอบ', value:pending, unit:'เคส', sub: pending>0 ? 'ต้องติดตามเร่งด่วน' : 'ไม่มีงานค้าง', subCls: pending>0 ? 'down':'up'}, 
+    {cls:'k-high', label:'ความเร่งด่วนสูง (High)', value:high, unit:'เคส', sub:`${total? Math.round((high/total)*100):0}% ของเคสช่วงนี้`, subCls: high>0 ? 'down':''}, 
+    {cls:'k-sla', label:'อัตราความสำเร็จ (SLA)', value:completionRate, unit:'%', sub:'เป้าหมาย KPI > 90%', subCls: completionRate>=90 ? 'up':'down'}, 
   ];
 
   document.getElementById('kpiGrid').innerHTML = cards.map(c=>`
@@ -786,8 +816,9 @@ function renderKPIs(data){
 function renderCategoryBars(data){
   const counts = groupCount(data, d=>d.category);
   const max = Math.max(...counts.map(c=>c[1]),1);
-  document.getElementById('catCountNote').textContent = `${counts.length} ประเภท`;
-  document.getElementById('categoryBars').innerHTML = counts.map(([name,count],i)=>{
+  document.getElementById('catCountNote').textContent = `${counts.length} ประเภทปัญหา`;
+  
+  document.getElementById('categoryBars').innerHTML = counts.slice(0,5).map(([name,count],i)=>{
     const pct = Math.round((count/max)*100);
     return `<div class="bar-row">
       <div class="bar-row-top"><span class="bar-row-name">${escapeHtml(name)}</span><span class="bar-row-val">${count}</span></div>
@@ -799,7 +830,7 @@ function renderCategoryBars(data){
 function renderDonut(containerId, data, keyFn, colorMap, centerLabel){
   const counts = groupCount(data, keyFn);
   const total = data.length;
-  const r = 58, cx=70, cy=70, strokeW=20;
+  const r = 56, cx=70, cy=70, strokeW=24; 
   const circumference = 2*Math.PI*r;
   let offset = 0;
   let segs = '';
@@ -814,8 +845,8 @@ function renderDonut(containerId, data, keyFn, colorMap, centerLabel){
   const svg = `<svg width="140" height="140" viewBox="0 0 140 140">
     <circle cx="${cx}" cy="${cy}" r="${r}" fill="none" stroke="#1A2440" stroke-width="${strokeW}"/>
     ${segs}
-    <text x="${cx}" y="${cy-4}" text-anchor="middle" font-family="Space Grotesk" font-size="22" font-weight="600" fill="#EDF1FA">${total}</text>
-    <text x="${cx}" y="${cy+14}" text-anchor="middle" font-family="IBM Plex Mono" font-size="9" fill="#5C6889">${centerLabel || 'เคส'}</text>
+    <text x="${cx}" y="${cy-5}" text-anchor="middle" font-family="Space Grotesk" font-size="26" font-weight="700" fill="#EDF1FA">${total}</text>
+    <text x="${cx}" y="${cy+16}" text-anchor="middle" font-family="IBM Plex Sans Thai" font-size="11" fill="#9AA8C7">${centerLabel || 'เคสรวม'}</text>
   </svg>`;
   const legend = counts.map(([name,count],i)=>{
     const color = colorMap ? colorMap(name) : PALETTE[i%PALETTE.length];
@@ -830,32 +861,34 @@ function renderDonut(containerId, data, keyFn, colorMap, centerLabel){
 }
 
 function renderStatusDonut(data){
-  document.getElementById('statusCountNote').textContent = `${data.length} เคส`;
+  document.getElementById('statusCountNote').textContent = `${data.length} เคสช่วงนี้`;
   const statusColor = (name)=>{
-    if(name==='เสร็จสิ้น') return COLORS.teal;
-    if(name==='รอดำเนินการ') return COLORS.amber;
-    if(name==='รอตรวจสอบ') return COLORS.violet;
+    if(name==='เสร็จสิ้น') return COLORS.teal;    
+    if(name==='รอดำเนินการ') return COLORS.amber; 
+    if(name==='รอตรวจสอบ') return COLORS.violet;  
+    if(name==='ยกเลิก') return COLORS.textLow;    
     return COLORS.textLow;
   };
-  renderDonut('statusDonut', data, d=>d.status, statusColor);
+  renderDonut('statusDonut', data, d=>d.status, statusColor, 'เคสรวม');
 }
 
 function renderPriorityDonut(data){
-  document.getElementById('prioCountNote').textContent = `${data.length} เคส`;
+  document.getElementById('prioCountNote').textContent = `${data.length} เคสช่วงนี้`;
   const prioColor = (name)=>{
-    if(name && name.includes('High')) return COLORS.coral;
-    if(name && name.includes('Medium')) return COLORS.amber;
-    if(name && name.includes('Low')) return COLORS.teal;
+    if(name && name.includes('High')) return COLORS.coral;    
+    if(name && name.includes('Medium')) return COLORS.amber;  
+    if(name && name.includes('Low')) return COLORS.teal;      
     return COLORS.textLow;
   };
-  renderDonut('prioDonut', data, d=>d.priority, prioColor);
+  renderDonut('prioDonut', data, d=>d.priority, prioColor, 'ความสำคัญ');
 }
 
 function renderDeptBars(data){
   const counts = groupCount(data, d=>d.department);
   const max = Math.max(...counts.map(c=>c[1]),1);
-  document.getElementById('deptCountNote').textContent = `${counts.length} แผนก`;
-  document.getElementById('deptBars').innerHTML = counts.map(([name,count],i)=>{
+  document.getElementById('deptCountNote').textContent = `${counts.length} แผนกที่แจ้ง`;
+  
+  document.getElementById('deptBars').innerHTML = counts.slice(0,5).map(([name,count],i)=>{
     const pct = Math.round((count/max)*100);
     return `<div class="bar-row">
       <div class="bar-row-top"><span class="bar-row-name">${escapeHtml(name)}</span><span class="bar-row-val">${count}</span></div>
@@ -867,7 +900,8 @@ function renderDeptBars(data){
 function renderAssignees(data){
   const counts = groupCount(data, d=>d.assignedTo);
   const max = Math.max(...counts.map(c=>c[1]),1);
-  document.getElementById('assigneeCountNote').textContent = `${counts.length} คน`;
+  document.getElementById('assigneeCountNote').textContent = `${counts.length} เจ้าหน้าที่`;
+  
   document.getElementById('assigneeGrid').innerHTML = counts.map(([name,count])=>{
     const pct = Math.round((count/max)*100);
     return `<div class="assignee-card">
@@ -879,20 +913,23 @@ function renderAssignees(data){
 }
 
 function renderRootCause(data){
-  const withCause = data.filter(d=>d.rootCause && d.rootCause.trim().length>0);
-  document.getElementById('rootCountNote').textContent = `${withCause.length}/${data.length} เคสมีบันทึก`;
+  const withCause = data.filter(d=>d.rootCause && d.rootCause.trim().length>1);
+  document.getElementById('rootCountNote').textContent = `${withCause.length}/${data.length} เคสมีบันทึกสาเหตุ`;
+  
   if(withCause.length===0){
-    document.getElementById('rootBars').innerHTML = '<div class="empty-note">ยังไม่มีการบันทึกสาเหตุ (Root Cause) ในข้อมูลนี้</div>';
+    document.getElementById('rootBars').innerHTML = '<div class="empty-note">ยังไม่มีข้อมูลบันทึกสาเหตุ (Root Cause) ของปัญหาในช่วงเวลานี้</div>';
     return;
   }
+  
   const counts = groupCount(withCause, d=>d.rootCause.trim());
   const max = Math.max(...counts.map(c=>c[1]),1);
+  
   document.getElementById('rootBars').innerHTML = counts.slice(0,8).map(([name,count],i)=>{
     const pct = Math.round((count/max)*100);
-    const displayName = name.length > 60 ? name.slice(0,60)+'…' : name;
+    const displayName = name.length > 55 ? name.slice(0,55)+'…' : name;
     return `<div class="bar-row">
       <div class="bar-row-top"><span class="bar-row-name" title="${escapeHtml(name)}">${escapeHtml(displayName)}</span><span class="bar-row-val">${count}</span></div>
-      <div class="bar-track"><div class="bar-fill" style="width:${pct}%; background:${PALETTE[(i+4)%PALETTE.length]};"></div></div>
+      <div class="bar-track"><div class="bar-fill" style="width:${pct}%; background:${PALETTE[(i+3)%PALETTE.length]};"></div></div>
     </div>`;
   }).join('');
 }
@@ -908,7 +945,7 @@ function weekKey(dateStr){
 function renderTrend(data){
   const withDates = data.filter(d=>d.datetime);
   if(withDates.length===0){
-    document.getElementById('trendChart').innerHTML = '<div class="empty-note">ไม่มีข้อมูลวันที่สำหรับแสดงแนวโน้ม</div>';
+    document.getElementById('trendChart').innerHTML = '<div class="empty-note">ไม่มีข้อมูลวันที่แจ้งซ่อมในช่วงเวลานี้</div>';
     document.getElementById('trendNote').textContent = '';
     return;
   }
@@ -923,51 +960,55 @@ function renderTrend(data){
   });
   
   const weeks = [...weekMap.entries()].sort((a,b)=>a[1].dateStr.localeCompare(b[1].dateStr));
-  document.getElementById('trendNote').textContent = `${weeks.length} สัปดาห์`;
+  document.getElementById('trendNote').textContent = `${weeks.length} สัปดาห์ข้อมูล`;
 
-  const W = Math.max(640, weeks.length*64), H = 220, padL=36, padR=16, padT=16, padB=34;
+  const W = Math.max(720, weeks.length*60), H = 240, padL=40, padR=20, padT=20, padB=35;
   const maxVal = Math.max(...weeks.map(w=>w[1].total), 1);
+  const chartMax = Math.ceil(maxVal * 1.1); 
+  
   const stepX = (W-padL-padR)/Math.max(weeks.length-1,1);
-  const yFor = v => H-padB - (v/maxVal)*(H-padT-padB);
+  const yFor = v => H-padB - (v/chartMax)*(H-padT-padB);
   const xFor = i => padL + i*stepX;
 
-  const totalPts = weeks.map((w,i)=>`${xFor(i)},${yFor(w[1].total)}`).join(' ');
+  const totalAreaPts = weeks.map((w,i)=>`${xFor(i)},${yFor(w[1].total)}`).join(' ');
+  const totalArea = `${padL},${H-padB} ${totalAreaPts} ${xFor(weeks.length-1)},${H-padB}`;
+  const totalPts = totalAreaPts;
   const donePts = weeks.map((w,i)=>`${xFor(i)},${yFor(w[1].done)}`).join(' ');
 
-  const totalArea = `${padL},${H-padB} ${totalPts} ${xFor(weeks.length-1)},${H-padB}`;
-
   let gridLines = '';
-  for(let g=0; g<=3; g++){
-    const y = padT + (g/3)*(H-padT-padB);
-    const val = Math.round(maxVal - (g/3)*maxVal);
+  const ticks = 4;
+  for(let g=0; g<=ticks; g++){
+    const y = padT + (g/ticks)*(H-padT-padB);
+    const val = Math.round(chartMax - (g/ticks)*chartMax);
     gridLines += `<line x1="${padL}" y1="${y}" x2="${W-padR}" y2="${y}" stroke="#1A2440" stroke-width="1"/>
-      <text x="${padL-8}" y="${y+3}" text-anchor="end" font-family="IBM Plex Mono" font-size="9" fill="#5C6889">${val}</text>`;
+      <text x="${padL-10}" y="${y+3}" text-anchor="end" font-family="IBM Plex Mono" font-size="10" fill="#5C6889">${val}</text>`;
   }
 
   let xLabels = '';
+  const labelInterval = Math.ceil(weeks.length / 10);
   weeks.forEach((w,i)=>{
-    if(i % Math.ceil(weeks.length/12) === 0 || i===weeks.length-1){
+    if(i % labelInterval === 0 || i===weeks.length-1){
       const parts = w[1].dateStr.split('-');
-      xLabels += `<text x="${xFor(i)}" y="${H-12}" text-anchor="middle" font-family="IBM Plex Mono" font-size="9" fill="#5C6889">${parts[2]}/${parts[1]}</text>`;
+      xLabels += `<text x="${xFor(i)}" y="${H-12}" text-anchor="middle" font-family="IBM Plex Mono" font-size="10" fill="#5C6889">${parts[2]}/${parts[1]}</text>`;
     }
   });
 
   let dots = '';
   weeks.forEach((w,i)=>{
-    dots += `<circle cx="${xFor(i)}" cy="${yFor(w[1].total)}" r="3" fill="${COLORS.amber}"/>`;
-    dots += `<circle cx="${xFor(i)}" cy="${yFor(w[1].done)}" r="3" fill="${COLORS.teal}"/>`;
+    dots += `<circle cx="${xFor(i)}" cy="${yFor(w[1].total)}" r="3.5" fill="${COLORS.amber}"/>`; 
+    dots += `<circle cx="${xFor(i)}" cy="${yFor(w[1].done)}" r="3.5" fill="${COLORS.teal}"/>`; 
   });
 
   const svg = `<svg width="100%" viewBox="0 0 ${W} ${H}" style="min-width:${W}px;">
     ${gridLines}
-    <polygon points="${totalArea}" fill="${COLORS.amber}" opacity="0.08"/>
-    <polyline points="${totalPts}" fill="none" stroke="${COLORS.amber}" stroke-width="2"/>
-    <polyline points="${donePts}" fill="none" stroke="${COLORS.teal}" stroke-width="2" stroke-dasharray="4 3"/>
+    <polygon points="${totalArea}" fill="${COLORS.amber}" opacity="0.06"/>
+    <polyline points="${totalPts}" fill="none" stroke="${COLORS.amber}" stroke-width="2.5"/>
+    <polyline points="${donePts}" fill="none" stroke="${COLORS.teal}" stroke-width="2.5" stroke-dasharray="5 4"/>
     ${dots}
     ${xLabels}
-    <g transform="translate(${W-160}, ${padT})">
-      <circle cx="0" cy="0" r="3" fill="${COLORS.amber}"/><text x="8" y="3" font-family="IBM Plex Mono" font-size="10" fill="#9AA8C7">เคสที่เข้ามา</text>
-      <circle cx="0" cy="16" r="3" fill="${COLORS.teal}"/><text x="8" y="19" font-family="IBM Plex Mono" font-size="10" fill="#9AA8C7">ปิดงานสำเร็จ</text>
+    <g transform="translate(${W-180}, ${padT})">
+      <circle cx="0" cy="0" r="3.5" fill="${COLORS.amber}"/><text x="12" y="4" font-family="IBM Plex Sans Thai" font-size="11" fill="#9AA8C7" font-weight="500">เคสแจ้งซ่อมใหม่</text>
+      <circle cx="0" cy="18" r="3.5" fill="${COLORS.teal}"/><text x="12" y="22" font-family="IBM Plex Sans Thai" font-size="11" fill="#9AA8C7" font-weight="500">ปิดงานสำเร็จ</text>
     </g>
   </svg>`;
   document.getElementById('trendChart').innerHTML = svg;
@@ -976,11 +1017,12 @@ function renderTrend(data){
 function renderMonthlyComparison(data){
   const withDates = data.filter(d=>d.datetime);
   if(withDates.length===0){
-    document.getElementById('monthlyChart').innerHTML = '<div class="empty-note">ไม่มีข้อมูลวันที่สำหรับเทียบรายเดือน</div>';
+    document.getElementById('monthlyChart').innerHTML = '<div class="empty-note">ไม่มีข้อมูลวันที่แจ้งซ่อมสำหรับการเปรียบเทียบรายเดือน</div>';
     document.getElementById('monthlyNote').textContent = '';
     document.getElementById('monthlyDeltaRow').innerHTML = '';
     return;
   }
+  
   const monthMap = new Map();
   withDates.forEach(d=>{
     const parts = d.datetime.split('-');
@@ -993,21 +1035,22 @@ function renderMonthlyComparison(data){
     if(d.status==='เสร็จสิ้น') e.done++;
   });
   const months = [...monthMap.entries()].sort((a,b)=>a[0].localeCompare(b[0]));
-  document.getElementById('monthlyNote').textContent = `${months.length} เดือน`;
+  document.getElementById('monthlyNote').textContent = `${months.length} เดือนข้อมูล`;
 
-  const W = Math.max(640, months.length*78), H = 220, padL=36, padR=16, padT=26, padB=34;
+  const W = Math.max(720, months.length*80), H = 240, padL=40, padR=20, padT=25, padB=35;
   const maxVal = Math.max(...months.map(m=>m[1].total), 1);
   const chartMax = Math.max(1, Math.ceil(maxVal * 1.15));
   const groupW = (W-padL-padR)/months.length;
-  const barW = Math.min(22, groupW*0.32);
+  const barW = Math.min(26, groupW*0.35); 
   const yFor = v => H-padB - (v/chartMax)*(H-padT-padB);
 
   let gridLines = '';
-  for(let g=0; g<=3; g++){
-    const y = padT + (g/3)*(H-padT-padB);
-    const val = Math.round(chartMax - (g/3)*chartMax);
+  const ticks=4;
+  for(let g=0; g<=ticks; g++){
+    const y = padT + (g/ticks)*(H-padT-padB);
+    const val = Math.round(chartMax - (g/ticks)*chartMax);
     gridLines += `<line x1="${padL}" y1="${y}" x2="${W-padR}" y2="${y}" stroke="#1A2440" stroke-width="1"/>
-      <text x="${padL-8}" y="${y+3}" text-anchor="end" font-family="IBM Plex Mono" font-size="9" fill="#5C6889">${val}</text>`;
+      <text x="${padL-10}" y="${y+3}" text-anchor="end" font-family="IBM Plex Mono" font-size="10" fill="#5C6889">${val}</text>`;
   }
 
   let bars = '', xLabels = '';
@@ -1018,50 +1061,49 @@ function renderMonthlyComparison(data){
     const totalY = yFor(m[1].total);
     const doneY = yFor(m[1].done);
     
-    bars += `<rect x="${cx-barW-2}" y="${totalY}" width="${barW}" height="${totalH}" rx="3" fill="url(#grad-amber)" opacity="0.9"/>`;
-    bars += `<rect x="${cx+2}" y="${doneY}" width="${barW}" height="${doneH}" rx="3" fill="url(#grad-teal)" opacity="0.9"/>`;
+    bars += `<rect x="${cx-barW-2}" y="${totalY}" width="${barW}" height="${totalH}" rx="4" fill="url(#grad-amber)" opacity="0.9"/>`;
+    bars += `<rect x="${cx+2}" y="${doneY}" width="${barW}" height="${doneH}" rx="4" fill="url(#grad-teal)" opacity="0.9"/>`;
     
-    bars += `<text x="${cx-barW/2-2}" y="${totalY-6}" text-anchor="middle" font-family="Space Grotesk" font-size="9.5" font-weight="500" fill="${COLORS.amber}">${m[1].total}</text>`;
-    bars += `<text x="${cx+barW/2+2}" y="${doneY-6}" text-anchor="middle" font-family="Space Grotesk" font-size="9.5" font-weight="500" fill="${COLORS.teal}">${m[1].done}</text>`;
+    bars += `<text x="${cx-barW/2-2}" y="${totalY-6}" text-anchor="middle" font-family="Space Grotesk" font-size="11" font-weight="600" fill="${COLORS.amber}">${m[1].total}</text>`;
+    bars += `<text x="${cx+barW/2+2}" y="${doneY-6}" text-anchor="middle" font-family="Space Grotesk" font-size="11" font-weight="600" fill="${COLORS.teal}">${m[1].done}</text>`;
     
-    xLabels += `<text x="${cx}" y="${H-12}" text-anchor="middle" font-family="IBM Plex Mono" font-size="9.5" fill="#9AA8C7">${THAI_MONTHS_SHORT[m[1].month]} ${String(m[1].year).slice(-2)}</text>`;
+    xLabels += `<text x="${cx}" y="${H-12}" text-anchor="middle" font-family="IBM Plex Sans Thai" font-size="11" fill="#9AA8C7" font-weight="500">${THAI_MONTHS_SHORT[m[1].month]} ${String(m[1].year).slice(-2)}</text>`;
   });
 
   const svg = `<svg width="100%" viewBox="0 0 ${W} ${H}" style="min-width:${W}px;">
     <defs>
       <linearGradient id="grad-amber" x1="0" y1="0" x2="0" y2="1">
-        <stop offset="0%" stop-color="#FFBB5C"/>
+        <stop offset="0%" stop-color="#FFD18B"/>
         <stop offset="100%" stop-color="#C97A1F"/>
       </linearGradient>
       <linearGradient id="grad-teal" x1="0" y1="0" x2="0" y2="1">
         <stop offset="0%" stop-color="#2DD4BF"/>
-        <stop offset="100%" stop-color="#0F766E"/>
+        <stop offset="100%" stop-color="#14B8A6"/>
       </linearGradient>
     </defs>
     ${gridLines}
     ${bars}
     ${xLabels}
-    <g transform="translate(${W-160}, ${padT})">
-      <rect x="0" y="-7" width="10" height="10" rx="2" fill="url(#grad-amber)"/><text x="15" y="2" font-family="IBM Plex Mono" font-size="10" fill="#9AA8C7">เคสที่เข้ามา</text>
-      <rect x="0" y="9" width="10" height="10" rx="2" fill="url(#grad-teal)"/><text x="15" y="18" font-family="IBM Plex Mono" font-size="10" fill="#9AA8C7">ปิดงานสำเร็จ</text>
+    <g transform="translate(${W-180}, ${padT})">
+      <rect x="0" y="-8" width="12" height="12" rx="3" fill="url(#grad-amber)"/><text x="18" y="2" font-family="IBM Plex Sans Thai" font-size="11" fill="#9AA8C7" font-weight="500">เคสแจ้งซ่อมใหม่</text>
+      <rect x="0" y="10" width="12" height="12" rx="3" fill="url(#grad-teal)"/><text x="18" y="20" font-family="IBM Plex Sans Thai" font-size="11" fill="#9AA8C7" font-weight="500">ปิดงานสำเร็จ</text>
     </g>
   </svg>`;
   document.getElementById('monthlyChart').innerHTML = svg;
 
-  // delta chips - MoM change logic
   const chips = months.map((m,i)=>{
     const label = `${THAI_MONTHS_SHORT[m[1].month]} ${String(m[1].year).slice(-2)}`;
-    let pctHtml = '<span class="dc-pct flat">เดือนแรก</span>';
+    let pctHtml = '<span class="dc-pct flat">N/A</span>';
     if(i>0){
       const prev = months[i-1][1].total;
       const cur = m[1].total;
       if(prev>0){
         const pct = Math.round(((cur-prev)/prev)*100);
-        const cls = pct>0 ? 'up' : (pct<0 ? 'down' : 'flat');
+        const cls = pct>0 ? 'up' : (pct<0 ? 'down' : 'flat'); 
         const sign = pct>0 ? '+' : '';
-        pctHtml = `<span class="dc-pct ${cls}">${sign}${pct}%</span>`;
+        pctHtml = `<span class="dc-pct ${cls}">${sign}${pct}% MoM</span>`;
       } else {
-        pctHtml = `<span class="dc-pct up">ใหม่</span>`;
+        pctHtml = `<span class="dc-pct up">New</span>`;
       }
     }
     return `<div class="delta-chip">
@@ -1075,12 +1117,14 @@ function renderMonthlyComparison(data){
 
 function renderHQDeptBreakdown(data){
   const hq = data.filter(d => d.depot && d.depot.includes('Head Office'));
-  document.getElementById('hqCountNote').textContent = `${hq.length} เคสจาก HQ`;
+  document.getElementById('hqCountNote').textContent = `${hq.length} เคสแจ้งซ่อม`;
   const container = document.getElementById('hqGrid');
+  
   if(hq.length===0){
-    container.innerHTML = '<div class="empty-note">ไม่มีข้อมูลเคสจาก Head Office (HQ) ในช่วงเวลานี้</div>';
+    container.innerHTML = '<div class="empty-note">ไม่มีข้อมูลเคสแจ้งซ่อมจาก Head Office (HQ) ในช่วงเวลานี้</div>';
     return;
   }
+  
   const total = data.length;
   const hqShare = total ? Math.round((hq.length/total)*100) : 0;
   const hqDone = hq.filter(d=>d.status==='เสร็จสิ้น').length;
@@ -1090,20 +1134,20 @@ function renderHQDeptBreakdown(data){
   const deptCounts = groupCount(hq, d=>d.department);
   const max = Math.max(...deptCounts.map(c=>c[1]),1);
 
-  const bars = deptCounts.map(([name,count],i)=>{
+  const bars = deptCounts.slice(0,6).map(([name,count],i)=>{
     const deptCases = hq.filter(d=>d.department===name);
     const deptDone = deptCases.filter(d=>d.status==='เสร็จสิ้น').length;
     const pct = Math.round((count/max)*100);
     const rate = count ? Math.round((deptDone/count)*100) : 0;
     
     const catGroup = groupCount(deptCases, d=>d.category);
-    const topCategory = catGroup.length > 0 ? catGroup[0][0] : 'ไม่ระบุ';
+    const topCategory = catGroup.length > 0 ? catGroup[0][0] : 'ไม่ระบุประเภท';
     
     return `<div class="hq-dept-row">
       <div class="hq-dept-top">
         <span class="hq-dept-name">
-          <span style="width:7px;height:7px;border-radius:50%;background:${PALETTE[i%PALETTE.length]};display:inline-block;flex-shrink:0;"></span>
-          <strong>${escapeHtml(name)}</strong>
+          <span style="width:8px;height:8px;border-radius:50%;background:${PALETTE[i%PALETTE.length]};display:inline-block;flex-shrink:0;"></span>
+          ${escapeHtml(name)}
         </span>
         <span class="hq-dept-val">${count} เคส</span>
       </div>
@@ -1111,7 +1155,7 @@ function renderHQDeptBreakdown(data){
         <div class="bar-fill" style="width:${pct}%; background:${PALETTE[i%PALETTE.length]};"></div>
       </div>
       <div class="hq-dept-sub">
-        เสร็จสิ้นแล้ว ${deptDone}/${count} (${rate}%) · <span style="color:var(--text-mid);">ปัญหาหลัก: ${escapeHtml(topCategory)}</span>
+        เสร็จสิ้นแล้ว ${deptDone}/${count} (<span style="font-weight:600; color:var(--teal);">${rate}%</span>) · <span style="color:var(--text-hi);">ปัญหาหลัก: ${escapeHtml(topCategory)}</span>
       </div>
     </div>`;
   }).join('');
@@ -1119,9 +1163,9 @@ function renderHQDeptBreakdown(data){
   container.innerHTML = `
     <div>
       <div class="hq-stat-strip">
-        <div class="hq-stat"><div class="hq-stat-label">สัดส่วนจากทั้งหมด</div><div class="hq-stat-val">${hqShare}%</div></div>
-        <div class="hq-stat"><div class="hq-stat-label">อัตราสำเร็จใน HQ</div><div class="hq-stat-val">${hqCompletionRate}%</div></div>
-        <div class="hq-stat"><div class="hq-stat-label">เร่งด่วนสูงใน HQ</div><div class="hq-stat-val">${hqHigh} เคส</div></div>
+        <div class="hq-stat"><div class="hq-stat-label">สัดส่วนเคส HQ</div><div class="hq-stat-val">${hqShare}%</div></div>
+        <div class="hq-stat"><div class="hq-stat-label">KPI สำเร็จใน HQ</div><div class="hq-stat-val" style="color:${hqCompletionRate>=90? COLORS.teal : COLORS.amber}">${hqCompletionRate}%</div></div>
+        <div class="hq-stat"><div class="hq-stat-label">วิกฤต/เร่งด่วน</div><div class="hq-stat-val" style="color:${hqHigh>0? COLORS.coral : COLORS.textHi}">${hqHigh} เคส</div></div>
       </div>
       <div class="hq-bars">${bars}</div>
     </div>
@@ -1131,7 +1175,7 @@ function renderHQDeptBreakdown(data){
   renderDonut('hqDonutWrap', hq, d=>d.department, (name)=>{
     const idx = deptCounts.findIndex(c=>c[0]===name);
     return PALETTE[idx % PALETTE.length];
-  }, 'เคสใน HQ');
+  }, 'เคสสำนักงานใหญ่');
 }
 
 /* ============ QUICK FILTERS & TABLE ============ */
@@ -1139,11 +1183,13 @@ function populateFilters(data){
   const statusSel = document.getElementById('statusFilter');
   const depotSel = document.getElementById('depotFilter');
   const prioSel = document.getElementById('priorityFilter');
+  
   const statuses = [...new Set(data.map(d=>d.status))].sort();
   const depots = [...new Set(data.map(d=>d.depot))].sort();
   const prios = [...new Set(data.map(d=>d.priority))].sort();
-  statusSel.innerHTML = '<option value="">ทุกสถานะ</option>' + statuses.map(s=>`<option value="${escapeHtml(s)}">${escapeHtml(s)}</option>`).join('');
-  depotSel.innerHTML = '<option value="">ทุกสาขา</option>' + depots.map(s=>`<option value="${escapeHtml(s)}">${escapeHtml(shortDepot(s))}</option>`).join('');
+  
+  statusSel.innerHTML = '<option value="">ทุกสถานะสถานะ</option>' + statuses.map(s=>`<option value="${escapeHtml(s)}">${escapeHtml(s)}</option>`).join('');
+  depotSel.innerHTML = '<option value="">ทุกสาขา/หน่วยงาน</option>' + depots.map(s=>`<option value="${escapeHtml(s)}">${escapeHtml(shortDepot(s))}</option>`).join('');
   prioSel.innerHTML = '<option value="">ทุกความเร่งด่วน</option>' + prios.map(s=>`<option value="${escapeHtml(s)}">${escapeHtml(s)}</option>`).join('');
 }
 
@@ -1153,7 +1199,6 @@ function renderTable(){
   const depotF = document.getElementById('depotFilter').value;
   const prioF = document.getElementById('priorityFilter').value;
 
-  // Filter within date-scoped subset
   let filtered = filteredData.filter(d=>{
     if(statusF && d.status !== statusF) return false;
     if(depotF && d.depot !== depotF) return false;
@@ -1166,10 +1211,9 @@ function renderTable(){
   });
 
   filtered.sort((a,b)=> b.datetime.localeCompare(a.datetime));
+  document.getElementById('filterCount').textContent = `แสดง ${filtered.length} รายการ จาก ${filteredData.length} เคสช่วงเวลานี้`;
 
-  document.getElementById('filterCount').textContent = `แสดง ${filtered.length} จาก ${filteredData.length} เคสช่วงนี้`;
-
-  const rows = filtered.slice(0,300).map(d=>`
+  const rows = filtered.slice(0,200).map(d=>`
     <tr>
       <td class="case-id">${escapeHtml(d.caseId)}</td>
       <td>${fmtDateShort(d.datetime)}</td>
@@ -1182,7 +1226,7 @@ function renderTable(){
       <td>${escapeHtml(d.assignedTo)}</td>
     </tr>
   `).join('');
-  document.getElementById('tableBody').innerHTML = rows || '<tr><td colspan="9" class="empty-note">ไม่พบรายการที่ตรงกับเงื่อนไข</td></tr>';
+  document.getElementById('tableBody').innerHTML = rows || '<tr><td colspan="9" class="empty-note">ไม่พบข้อมูลรายการที่ตรงกับเงื่อนไขการค้นหา</td></tr>';
 }
 
 ['searchInput','statusFilter','depotFilter','priorityFilter'].forEach(id=>{
@@ -1201,15 +1245,12 @@ function parseExcelDate(v){
     if(parsed) d = new Date(parsed.y, parsed.m-1, parsed.d);
   } else if(typeof v === 'string'){
     const s = v.trim();
-    // Match DD/MM/YYYY or YYYY-MM-DD
     let m = s.match(/^(\d{1,2})[\/\.-](\d{1,2})[\/\.-](\d{4})/);
     if(m){
-      let p1 = parseInt(m[1]), p2 = parseInt(m[2]), yr = parseInt(m[3]);
-      if(yr > 2500) yr -= 543;
-      if(p2 <= 12) {
-        d = new Date(yr, p2-1, p1);
-      } else if(p1 <= 12) {
-        d = new Date(yr, p1-1, p2);
+      let day = parseInt(m[1]), month = parseInt(m[2]), yr = parseInt(m[3]);
+      if(yr > 2500) yr -= 543; 
+      if(month >= 1 && month <= 12 && day >= 1 && day <= 31) {
+         d = new Date(yr, month-1, day);
       }
     } else {
       let m2 = s.match(/^(\d{4})-(\d{1,2})-(\d{1,2})/);
@@ -1229,70 +1270,80 @@ function parseExcelDate(v){
     if(yr > 2500) yr -= 543;
     const month = String(d.getMonth() + 1).padStart(2, '0');
     const day = String(d.getDate()).padStart(2, '0');
-    return `${yr}-${month}-${day}`; // Always return standard YYYY-MM-DD
+    return `${yr}-${month}-${day}`; 
   }
   return null;
 }
 
-// Fixed normalizeRow to handle both Raw Excel Headers and camelCase keys (idempotency)
 function normalizeRow(row){
   const get = (...keys)=>{
     for(const k of keys){
       if(row[k] !== undefined && row[k] !== null && row[k] !== '') return row[k];
+      const lowerKey = k.toLowerCase();
+      if(row[lowerKey] !== undefined && row[lowerKey] !== null && row[lowerKey] !== '') return row[lowerKey];
+      const cleanKey = k.replace(/\s+/g, '');
+      if(row[cleanKey] !== undefined && row[cleanKey] !== null && row[cleanKey] !== '') return row[cleanKey];
     }
     return null;
   };
+  
   return {
-    caseId: get('CaseID','Case ID','เลขเคส','caseId') || '',
-    issue: get('Issue description','Issue Description','ปัญหา','issue') || '',
-    category: get('Category','ประเภท','category') || 'ไม่ระบุ',
-    depot: get('Depot','สาขา','depot') || 'ไม่ระบุ',
-    department: get('Department','แผนก','department') || 'ไม่ระบุ',
-    requester: get('Requester Name','ผู้แจ้ง','requester') || '',
-    datetime: get('Date Time','DateTime','วันที่','datetime'),
-    status: get('Status','สถานะ','status') || 'ไม่ระบุ',
-    priority: get('Priority','ความเร่งด่วน','priority') || 'ไม่ระบุ',
-    assignedTo: get('Assigned to','Assigned To','ผู้ดูแล','assignedTo') || 'ไม่ระบุ',
-    resolution: get('Resolution','การแก้ไข','resolution') || '',
-    rootCause: get('Root Cause','สาเหตุ','rootCause') || '',
-    createdBy: get('Created By','ผู้สร้าง','createdBy') || ''
+    caseId: get('CaseID','Case ID','เลขเคส','ticket id') || '',
+    issue: get('Issue description','Issue Description','รายละเอียดปัญหา','ปัญหา','description') || '',
+    category: get('Category','ประเภท','ประเภทปัญหา') || 'ไม่ระบุ',
+    depot: get('Depot','สาขา','หน่วยงาน') || 'ไม่ระบุ',
+    department: get('Department','แผนก','ฝ่าย') || 'ไม่ระบุ',
+    requester: get('Requester Name','ผู้แจ้ง','ชื่อผู้แจ้ง') || '',
+    datetime: get('Date Time','DateTime','วันที่แจ้ง','วันที่') || null, 
+    status: get('Status','สถานะ') || 'รอดำเนินการ',
+    priority: get('Priority','ความเร่งด่วน','ความสำคัญ') || 'ปกติ',
+    assignedTo: get('Assigned to','Assigned To','ผู้ดูแล','เจ้าหน้าที่') || 'ไม่ระบุ',
+    resolution: get('Resolution','การแก้ไข','วิธีแก้ไข') || '',
+    rootCause: get('Root Cause','สาเหตุ','สาเหตุของปัญหา') || '',
+    createdBy: get('Created By','ผู้สร้าง') || ''
   };
 }
 
 function sanitizeData(rawArray) {
   return rawArray.map(item => {
     const normalized = normalizeRow(item);
-    normalized.datetime = parseExcelDate(normalized.datetime || item.datetime);
+    normalized.datetime = parseExcelDate(normalized.datetime || item.datetime); 
     return normalized;
-  }).filter(r => r.caseId && r.datetime);
+  }).filter(r => r.caseId && r.caseId.length > 2 && r.datetime); 
 }
 
 function handleWorkbook(workbook){
   try{
     const sheetName = workbook.SheetNames[0];
     const sheet = workbook.Sheets[sheetName];
-    const json = XLSX.utils.sheet_to_json(sheet, {defval:null, raw:true});
+    const json = XLSX.utils.sheet_to_json(sheet, {defval:null, raw:true}); 
     const rows = sanitizeData(json);
+    
     if(rows.length === 0){
-      throw new Error('ไม่พบข้อมูลที่อ่านได้ในไฟล์ — ตรวจสอบว่าคอลัมน์หัวข้อตรงกับไฟล์ต้นฉบับ');
+      throw new Error('ไม่พบข้อมูลเคสแจ้งซ่อมที่อ่านได้ในไฟล์นี้ — ตรวจสอบคอลัมน์และข้อมูลในไฟล์ Excel');
     }
+    
     renderAll(rows);
-    document.getElementById('dataSourceLabel').textContent = `ข้อมูลล่าสุด: ${rows.length} เคสจากไฟล์ที่อัปโหลด`;
+    document.getElementById('dataSourceLabel').textContent = `ข้อมูลล่าสุด: ${rows.length} เคส จากไฟล์ Excel ที่อัปโหลดใหม่`;
+    
     const statusEl = document.getElementById('uploadStatus');
     statusEl.className = 'upload-status ok';
-    statusEl.textContent = `✓ โหลดสำเร็จ ${rows.length} เคส — กำลังปิดหน้าต่าง...`;
-    setTimeout(()=>{ closeUploadModal(); }, 1100);
+    statusEl.textContent = `✓ โหลดสำเร็จ ${rows.length} เคส — กำลังอัปเดตหน้า Dashboard...`;
+    
+    setTimeout(()=>{ closeUploadModal(); }, 1200);
+    
   }catch(err){
     const statusEl = document.getElementById('uploadStatus');
     statusEl.className = 'upload-status err';
-    statusEl.textContent = '✗ ' + (err.message || 'เกิดข้อผิดพลาดในการอ่านไฟล์');
+    statusEl.textContent = '✗ ' + (err.message || 'เกิดข้อผิดพลาดในการอ่านไฟล์ข้อมูล');
   }
 }
 
 function readFile(file){
   const statusEl = document.getElementById('uploadStatus');
   statusEl.className = 'upload-status';
-  statusEl.textContent = 'กำลังอ่านไฟล์...';
+  statusEl.textContent = 'กำลังประมวลผลไฟล์...';
+  
   const reader = new FileReader();
   reader.onload = (e)=>{
     try{
@@ -1301,7 +1352,7 @@ function readFile(file){
       handleWorkbook(workbook);
     }catch(err){
       statusEl.className = 'upload-status err';
-      statusEl.textContent = '✗ ไม่สามารถอ่านไฟล์นี้ได้ — ตรวจสอบว่าเป็นไฟล์ .xlsx ที่ถูกต้อง';
+      statusEl.textContent = '✗ ไม่สามารถอ่านไฟล์นี้ได้ — ตรวจสอบว่าเป็นไฟล์ Excel (.xlsx) ที่ถูกต้อง';
     }
   };
   reader.readAsArrayBuffer(file);
@@ -1320,17 +1371,12 @@ uploadModal.addEventListener('click', (e)=>{ if(e.target===uploadModal) closeUpl
 
 dropzone.addEventListener('click', ()=>fileInput.click());
 fileInput.addEventListener('change', (e)=>{ if(e.target.files[0]) readFile(e.target.files[0]); });
+
 dropzone.addEventListener('dragover', (e)=>{ e.preventDefault(); dropzone.classList.add('drag'); });
 dropzone.addEventListener('dragleave', ()=>{ dropzone.classList.remove('drag'); });
 dropzone.addEventListener('drop', (e)=>{
   e.preventDefault(); dropzone.classList.remove('drag');
   if(e.dataTransfer.files[0]) readFile(e.dataTransfer.files[0]);
-});
-
-// Period Selector Listeners (Real-time and manual triggers with both change and input events)
-['dashStartDate', 'dashEndDate'].forEach(id => {
-  document.getElementById(id).addEventListener('input', () => updateDashboardView(true));
-  document.getElementById(id).addEventListener('change', () => updateDashboardView(true));
 });
 
 document.getElementById('applyDatesBtn').addEventListener('click', () => {
@@ -1344,6 +1390,28 @@ document.getElementById('resetDatesBtn').addEventListener('click', () => {
     document.getElementById('dashEndDate').value = dates[dates.length - 1];
   }
   updateDashboardView(true);
+});
+
+/* ============ ADMIN PASSWORD LOGIC ============ */
+function checkAdminPassword() {
+  const passwordInput = document.getElementById('adminPasswordInput');
+  const errorMsg = document.getElementById('loginErrorMsg');
+  const overlay = document.getElementById('loginOverlay');
+  
+  if (passwordInput.value === 'admin11') {
+    overlay.style.display = 'none'; 
+  } else {
+    errorMsg.style.display = 'block'; 
+    passwordInput.value = '';
+    passwordInput.focus();
+  }
+}
+
+document.getElementById('submitPasswordBtn').addEventListener('click', checkAdminPassword);
+document.getElementById('adminPasswordInput').addEventListener('keypress', function(e) {
+  if (e.key === 'Enter') {
+    checkAdminPassword();
+  }
 });
 
 /* ============ INIT ============ */
